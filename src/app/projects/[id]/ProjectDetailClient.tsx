@@ -19,7 +19,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Project } from "@/lib/data";
+import { Database } from "@/types/supabase";
+
+type Project = Database["public"]["Tables"]["projects"]["Row"];
 
 interface ProjectDetailClientProps {
     project: Project;
@@ -73,7 +75,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
 
                             {/* Description */}
                             <p className="text-lg text-muted-foreground mb-8">
-                                {project.fullDescription}
+                                {project.full_description}
                             </p>
 
                             {/* Meta Info */}
@@ -94,16 +96,16 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
 
                             {/* CTA Buttons */}
                             <div className="flex flex-wrap gap-4">
-                                {project.liveUrl && (
-                                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                {project.live_url && (
+                                    <a href={project.live_url} target="_blank" rel="noopener noreferrer">
                                         <Button className="group bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white border-0 shadow-lg shadow-brand-start/20">
                                             View Live Demo
                                             <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                                         </Button>
                                     </a>
                                 )}
-                                {project.githubUrl && (
-                                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                {project.github_url && (
+                                    <a href={project.github_url} target="_blank" rel="noopener noreferrer">
                                         <Button variant="outline" className="border-brand-start/30 hover:border-brand-start/50 hover:bg-brand-start/10 transition-all duration-300">
                                             <Github className="w-4 h-4 mr-2" />
                                             View Code
@@ -121,9 +123,9 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                             className="relative"
                         >
                             <div className="relative aspect-video rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-brand-start/10 via-background to-brand-middle/10">
-                                {project.image ? (
+                                {project.image_url ? (
                                     <Image
-                                        src={project.image}
+                                        src={project.image_url}
                                         alt={project.title}
                                         fill
                                         className="object-cover"
@@ -280,7 +282,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                     </motion.div>
 
                     <div className="grid md:grid-cols-3 gap-6">
-                        {project.gallery.map((image, index) => (
+                        {(project.gallery_urls || []).map((image, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 30 }}
@@ -291,7 +293,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                                 className="relative aspect-video rounded-xl overflow-hidden border border-border bg-gradient-to-br from-brand-start/10 via-background to-brand-middle/10"
                             >
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                    {image && image.startsWith("/") ? (
+                                    {image && image.startsWith("http") ? (
                                         <Image
                                             src={image}
                                             alt={`${project.title} screenshot ${index + 1}`}

@@ -4,24 +4,55 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp, Instagram } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
+import { Database } from "@/types/supabase";
 
-const socialLinks = [
+type SiteSettings = Database["public"]["Tables"]["site_settings"]["Row"];
+
+// Initial fallback links
+const defaultSocialLinks = [
     { name: "GitHub", href: "https://github.com/devd-328", icon: Github },
     { name: "LinkedIn", href: "https://www.linkedin.com/in/dev-das-webdev/", icon: Linkedin },
     { name: "Twitter", href: "https://x.com/devdas_tech", icon: Twitter },
     { name: "Instagram", href: "https://www.instagram.com/devdas.tech", icon: Instagram },
-    { name: "Email", href: "mailto:devdas.tech10@gmail.com", icon: Mail },
 ];
 
 const footerLinks = [
     { name: "Home", href: "/" },
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "/#about" },
+    { name: "Projects", href: "/#projects" },
+    { name: "Contact", href: "/#contact" },
 ];
 
 export default function Footer() {
     const pathname = usePathname();
+    const [settings, setSettings] = useState<SiteSettings | null>(null);
+    const supabase = createClient();
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const { data, error } = await (supabase
+                    .from("site_settings") as any)
+                    .select("*")
+                    .single();
+                if (!error) setSettings(data);
+            } catch (err) {
+                console.error("Footer: Error fetching settings:", err);
+            }
+        };
+        fetchSettings();
+    }, []);
+
+    const socialLinks = [
+        { name: "GitHub", href: settings?.github_url || "https://github.com/devd-328", icon: Github },
+        { name: "LinkedIn", href: settings?.linkedin_url || "https://www.linkedin.com/in/dev-das-webdev/", icon: Linkedin },
+        { name: "Twitter", href: settings?.twitter_url || "https://x.com/devdas_tech", icon: Twitter },
+        { name: "Instagram", href: settings?.instagram_url || "https://www.instagram.com/devdas.tech", icon: Instagram },
+        { name: "Email", href: `mailto:${settings?.email || "devdas.tech10@gmail.com"}`, icon: Mail },
+    ];
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
@@ -123,7 +154,7 @@ export default function Footer() {
                     <p className="text-muted-foreground text-sm flex items-center gap-1">
                         © {new Date().getFullYear()} Portfolio. Made with{" "}
                         <Heart className="w-4 h-4 text-brand-start fill-brand-start animate-pulse" />{" "}
-                        in Pakistan
+
                     </p>
 
                     {/* Scroll to Top Button */}

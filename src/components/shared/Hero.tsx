@@ -3,9 +3,45 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Sparkles, Code2, Rocket } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
+import { Database } from "@/types/supabase";
+
+type SiteSettings = Database["public"]["Tables"]["site_settings"]["Row"];
 
 export default function Hero() {
+    const [settings, setSettings] = useState<SiteSettings | null>(null);
+    const [loading, setLoading] = useState(true);
+    const supabase = createClient();
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const { data, error } = await (supabase
+                    .from("site_settings") as any)
+                    .select("*")
+                    .single();
+                if (!error) setSettings(data);
+            } catch (err) {
+                console.error("Hero: Error fetching settings:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchSettings();
+    }, []);
+
+    // Fallbacks
+    const heroTitle = settings?.hero_title || "Hi, I'm";
+    const heroName = settings?.hero_name || "Dev Das";
+    const heroSubtitle = settings?.hero_subtitle || "A passionate Full Stack Developer crafting beautiful, performant, and user-centric digital experiences.";
+    const heroImage = settings?.hero_image_url || "/My-Professional-Pic.jpeg";
+    const available = settings?.available_for_hire ?? true;
+
+    if (loading) return null;
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Animated Background */}
@@ -53,15 +89,17 @@ export default function Hero() {
                         className="text-center lg:text-left order-2 lg:order-1"
                     >
                         {/* Badge */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6"
-                        >
-                            <Sparkles className="w-4 h-4 text-brand-middle" />
-                            <span className="text-sm font-medium text-brand-middle">Available for hire</span>
-                        </motion.div>
+                        {available && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6"
+                            >
+                                <Sparkles className="w-4 h-4 text-brand-middle" />
+                                <span className="text-sm font-medium text-brand-middle">Available for hire</span>
+                            </motion.div>
+                        )}
 
                         {/* Heading */}
                         <motion.h1
@@ -70,9 +108,9 @@ export default function Hero() {
                             transition={{ duration: 0.5, delay: 0.3 }}
                             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight"
                         >
-                            <span className="block text-foreground">Hi, I&apos;m</span>
+                            <span className="block text-foreground">{heroTitle}</span>
                             <span className="block mt-2 bg-gradient-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
-                                Your Name
+                                {heroName}
                             </span>
                         </motion.h1>
 
@@ -83,9 +121,7 @@ export default function Hero() {
                             transition={{ duration: 0.5, delay: 0.4 }}
                             className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0"
                         >
-                            A passionate{" "}
-                            <span className="text-foreground font-medium">Full Stack Developer</span>{" "}
-                            crafting beautiful, performant, and user-centric digital experiences.
+                            {heroSubtitle}
                         </motion.p>
 
                         {/* CTA Buttons */}
@@ -95,24 +131,27 @@ export default function Hero() {
                             transition={{ duration: 0.5, delay: 0.5 }}
                             className="mt-8 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start"
                         >
+                            <Link href="/#projects">
+                                <Button
+                                    size="lg"
+                                    className="group relative overflow-hidden bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white shadow-lg shadow-brand-start/25 hover:shadow-brand-start/40 transition-all duration-300 border-0"
+                                >
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        View My Work
+                                        <Rocket className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    </span>
+                                </Button>
+                            </Link>
                             <Button
-                                size="lg"
-                                className="group relative overflow-hidden bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white shadow-lg shadow-brand-start/25 hover:shadow-brand-start/40 transition-all duration-300 border-0"
-                            >
-                                <span className="relative z-10 flex items-center gap-2">
-                                    View My Work
-                                    <Rocket className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                            </Button>
-                            <Button
+                                asChild
                                 size="lg"
                                 variant="outline"
                                 className="group border-brand-start/30 hover:border-brand-start/50 hover:bg-brand-start/10 transition-all duration-300"
                             >
-                                <span className="flex items-center gap-2">
+                                <a href={settings?.resume_url || "/Dev_Das_Resume.pdf"} download>
                                     <Code2 className="w-4 h-4" />
                                     Download CV
-                                </span>
+                                </a>
                             </Button>
                         </motion.div>
 
@@ -124,9 +163,9 @@ export default function Hero() {
                             className="mt-12 grid grid-cols-3 gap-6 max-w-md mx-auto lg:mx-0"
                         >
                             {[
-                                { value: "3+", label: "Years Exp." },
-                                { value: "50+", label: "Projects" },
-                                { value: "30+", label: "Happy Clients" },
+                                { value: `${settings?.years_exp ?? 3}+`, label: "Years Exp." },
+                                { value: `${settings?.projects_count ?? 50}+`, label: "Projects" },
+                                { value: `${settings?.clients_count ?? 30}+`, label: "Happy Clients" },
                             ].map((stat, index) => (
                                 <div key={index} className="text-center lg:text-left">
                                     <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
@@ -159,10 +198,10 @@ export default function Hero() {
                             {/* Image Container */}
                             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-brand-start/30 shadow-2xl shadow-brand-start/20">
                                 <Image
-                                    src="/My-Professional-Pic.jpeg"
+                                    src={heroImage}
                                     alt="Profile Picture"
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 384px"
                                     priority
                                 />

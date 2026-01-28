@@ -1,15 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { Folder, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { ExternalLink, Github, Folder } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { Database } from "@/types/supabase";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+import { ExternalLink, Github } from "lucide-react";
 
 type Project = Database["public"]["Tables"]["projects"]["Row"];
 
@@ -22,13 +23,12 @@ function ProjectCard({
 }) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
         >
             <Link href={`/projects/${project.id}`}>
-                <Card className="group relative overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-500 cursor-pointer">
+                <Card className="group relative overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-500 cursor-pointer h-full">
                     {/* Image Container */}
                     <div className="relative aspect-video overflow-hidden">
                         {project.image_url ? (
@@ -132,12 +132,11 @@ function ProjectCard({
     );
 }
 
-export default function Projects() {
+export default function ProjectsPage() {
     const [activeCategory, setActiveCategory] = useState("All");
     const [projects, setProjects] = useState<Project[]>([]);
     const [categories, setCategories] = useState<string[]>(["All"]);
     const [loading, setLoading] = useState(true);
-    const ref = useRef(null);
     const supabase = createClient();
 
     useEffect(() => {
@@ -155,7 +154,7 @@ export default function Projects() {
                 // Extract unique categories
                 const uniqueCategories = Array.from(
                     new Set((data || []).map((p: Project) => p.category))
-                ) as string[];
+                );
                 setCategories(["All", ...uniqueCategories]);
             } catch (error) {
                 console.error("Error fetching projects:", error);
@@ -167,101 +166,80 @@ export default function Projects() {
         fetchProjects();
     }, []);
 
+    if (loading) {
+        return (
+            <div className="min-h-screen pt-24 pb-20 flex items-center justify-center">
+                <p className="text-muted-foreground">Loading projects...</p>
+            </div>
+        );
+    }
+
     const filteredProjects =
         activeCategory === "All"
             ? projects
             : projects.filter((p) => p.category === activeCategory);
 
     return (
-        <section id="projects" className="relative py-8 md:py-12 overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 -z-10">
-                <div className="absolute top-1/4 right-0 w-96 h-96 bg-brand-start/10 rounded-full blur-[128px]" />
-                <div className="absolute bottom-1/4 left-0 w-72 h-72 bg-brand-middle/10 rounded-full blur-[128px]" />
-            </div>
-
+        <div className="min-h-screen pt-24 pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
-                <motion.div
-                    ref={ref}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-8"
-                >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
-                        <Folder className="w-4 h-4 text-brand-start" />
-                        <span className="text-sm font-medium text-brand-start">
-                            My Projects
-                        </span>
-                    </div>
-
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-                        Featured{" "}
-                        <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
-                            Works
-                        </span>
-                    </h2>
-
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        Explore my recent projects showcasing my skills in full-stack
-                        development, from responsive web apps to scalable backend systems.
-                    </p>
-                </motion.div>
-
-                {/* Category Filter */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="flex flex-wrap justify-center gap-3 mb-12"
-                >
-                    {categories.map((category: string) => (
-                        <Button
-                            key={category}
-                            variant={activeCategory === category ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setActiveCategory(category)}
-                            className={
-                                activeCategory === category
-                                    ? "bg-gradient-to-r from-brand-start to-brand-middle text-white border-0"
-                                    : "border-brand-start/30 hover:border-brand-start/50 hover:bg-brand-start/10"
-                            }
-                        >
-                            {category}
+                {/* Header */}
+                <div className="mb-12">
+                    <Link href="/">
+                        <Button variant="ghost" className="mb-8 hover:bg-brand-start/10 hover:text-brand-start transition-colors">
+                            <ArrowLeft className="w-4 h-4 mr-2" />
+                            Back to Home
                         </Button>
-                    ))}
-                </motion.div>
+                    </Link>
+
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
+                                <Folder className="w-4 h-4 text-brand-start" />
+                                <span className="text-sm font-medium text-brand-start">
+                                    Portfolio
+                                </span>
+                            </div>
+                            <h1 className="text-4xl md:text-5xl font-bold">
+                                All My{" "}
+                                <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                                    Projects
+                                </span>
+                            </h1>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                            {categories.map((category: string) => (
+                                <Button
+                                    key={category}
+                                    variant={activeCategory === category ? "default" : "outline"}
+                                    size="sm"
+                                    onClick={() => setActiveCategory(category)}
+                                    className={
+                                        activeCategory === category
+                                            ? "bg-gradient-to-r from-brand-start to-brand-middle text-white border-0"
+                                            : "border-brand-start/30 hover:border-brand-start/50 hover:bg-brand-start/10"
+                                    }
+                                >
+                                    {category}
+                                </Button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
 
                 {/* Projects Grid */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredProjects.map((project, index) => (
                         <ProjectCard key={project.id} project={project} index={index} />
                     ))}
                 </div>
 
-                {/* View All Button */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="text-center mt-6"
-                >
-                    <Link href="/projects" className="inline-block">
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            className="group border-brand-start/30 hover:border-brand-start/50 hover:bg-brand-start/10"
-                        >
-                            View All Projects
-                            <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                    </Link>
-                </motion.div>
+                {filteredProjects.length === 0 && (
+                    <div className="text-center py-20">
+                        <p className="text-muted-foreground">No projects found in this category.</p>
+                    </div>
+                )}
             </div>
-        </section>
+        </div>
     );
 }

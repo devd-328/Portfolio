@@ -11,6 +11,7 @@ import {
     X,
     Loader2
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -44,10 +45,11 @@ export function BlogList({ initialBlogs }: BlogListProps) {
 
             setBlogs(prev => prev.filter(b => b.id !== id));
             setDeletingId(null);
+            toast.success("Blog post deleted successfully");
             router.refresh();
         } catch (error) {
             console.error("Error deleting blog:", error);
-            alert("Failed to delete blog post");
+            toast.error("Failed to delete blog post");
         } finally {
             setIsDeleting(false);
         }

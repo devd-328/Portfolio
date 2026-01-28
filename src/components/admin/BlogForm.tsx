@@ -14,11 +14,14 @@ import {
     Eye,
     Type
 } from "lucide-react";
+import { toast } from "sonner";
+import ImageUpload from "./ImageUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 interface BlogFormProps {
@@ -76,10 +79,12 @@ export default function BlogForm({ initialData }: BlogFormProps) {
                 if (error) throw error;
             }
 
+            toast.success(formData.published ? "Article published successfully!" : "Draft saved successfully!");
             router.push("/admin/blogs");
             router.refresh();
         } catch (error: any) {
-            alert("Error saving blog: " + error.message);
+            console.error("Error saving blog:", error);
+            toast.error("Error saving blog: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -216,11 +221,9 @@ export default function BlogForm({ initialData }: BlogFormProps) {
                                     <label className="text-sm font-medium">Published Status</label>
                                     <p className="text-[10px] text-muted-foreground italic">Visible to the public?</p>
                                 </div>
-                                <input
-                                    type="checkbox"
+                                <Switch
                                     checked={formData.published}
-                                    onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-                                    className="w-5 h-5 rounded border-gray-300 text-brand-start focus:ring-brand-start"
+                                    onCheckedChange={(checked) => setFormData({ ...formData, published: checked })}
                                 />
                             </div>
                         </CardContent>
@@ -230,22 +233,12 @@ export default function BlogForm({ initialData }: BlogFormProps) {
                     <Card className="border-border/50">
                         <CardHeader><CardTitle className="text-lg">Media</CardTitle></CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="space-y-2">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <ImageIcon className="w-4 h-4 text-muted-foreground" />
-                                    <label className="text-sm font-medium">Cover Image URL</label>
-                                </div>
-                                <Input
-                                    value={formData.cover_image}
-                                    onChange={(e) => setFormData({ ...formData, cover_image: e.target.value })}
-                                    placeholder="https://..."
-                                />
-                                {formData.cover_image && (
-                                    <div className="mt-2 relative aspect-[16/9] rounded-md overflow-hidden border border-border">
-                                        <img src={formData.cover_image} alt="Preview" className="w-full h-full object-cover" />
-                                    </div>
-                                )}
-                            </div>
+                            <ImageUpload
+                                value={formData.cover_image}
+                                onChange={(url) => setFormData({ ...formData, cover_image: url })}
+                                label="Cover Image"
+                                folder="blogs"
+                            />
                         </CardContent>
                     </Card>
 

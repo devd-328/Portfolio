@@ -13,16 +13,30 @@ import {
     ExternalLink,
     Github
 } from "lucide-react";
+import { toast } from "sonner";
+import ImageUpload from "./ImageUpload";
+import MultiImageUpload from "./MultiImageUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 interface ProjectFormProps {
     initialData?: any;
 }
+
+const slugify = (text: string) => {
+    return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')     // Replace spaces with -
+        .replace(/[^\w-]+/g, '')   // Remove all non-word chars
+        .replace(/--+/g, '-');     // Replace multiple - with single -
+};
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
     const [loading, setLoading] = useState(false);
@@ -41,11 +55,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         github_url: initialData?.github_url || "",
         featured: initialData?.featured || false,
         image_url: initialData?.image_url || "",
+        gallery_urls: initialData?.gallery_urls || [],
         technologies: initialData?.technologies || [],
     });
     const [newTech, setNewTech] = useState("");
     const router = useRouter();
     const supabase = createClient();
+
+    const projectSlug = slugify(formData.title || "unnamed-project");
+    const uploadPath = `projects/${projectSlug}`;
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -67,10 +85,12 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                 if (error) throw error;
             }
 
+            toast.success("Project saved successfully!");
             router.push("/admin/projects");
             router.refresh();
         } catch (error: any) {
-            alert("Error saving project: " + error.message);
+            console.error("Error saving project:", error);
+            toast.error("Error saving project: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -78,19 +98,19 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
     const addTech = () => {
         if (newTech && !formData.technologies.includes(newTech)) {
-            setFormData({
-                ...formData,
-                technologies: [...formData.technologies, newTech]
-            });
+            setFormData(prev => ({
+                ...prev,
+                technologies: [...prev.technologies, newTech]
+            }));
             setNewTech("");
         }
     };
 
     const removeTech = (tech: string) => {
-        setFormData({
-            ...formData,
-            technologies: formData.technologies.filter((t: string) => t !== tech)
-        });
+        setFormData(prev => ({
+            ...prev,
+            technologies: prev.technologies.filter((t: string) => t !== tech)
+        }));
     };
 
     return (
@@ -145,6 +165,20 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                                     placeholder="Detailed project summary..."
                                 />
                             </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Gallery Section */}
+                    <Card className="border-border/50">
+                        <CardHeader><CardTitle className="text-lg">Project Gallery</CardTitle></CardHeader>
+                        <CardContent>
+                            <MultiImageUpload
+                                value={formData.gallery_urls}
+                                onChange={(urls) => setFormData(prev => ({ ...prev, gallery_urls: urls }))}
+                                folder={uploadPath}
+                                customFileName={projectSlug}
+                                description="Add multiple screenshots. These will be stored in projects folder."
+                            />
                         </CardContent>
                     </Card>
 
@@ -224,15 +258,13 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                 />
                             </div>
-                            <div className="flex items-center space-x-2 pt-2">
-                                <input
-                                    type="checkbox"
+                            <div className="flex items-center justify-between pt-2">
+                                <label htmlFor="featured" className="text-sm font-medium">Featured Project</label>
+                                <Switch
                                     id="featured"
                                     checked={formData.featured}
-                                    onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                                    className="w-4 h-4 rounded border-gray-300 text-brand-start focus:ring-brand-start"
+                                    onCheckedChange={(checked) => setFormData({ ...formData, featured: checked })}
                                 />
-                                <label htmlFor="featured" className="text-sm font-medium">Featured Project</label>
                             </div>
                         </CardContent>
                     </Card>
@@ -263,22 +295,13 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                                     placeholder="https://github.com/..."
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <ImageIcon className="w-4 h-4 text-muted-foreground" />
-                                    <label className="text-sm font-medium">Image URL</label>
-                                </div>
-                                <Input
-                                    value={formData.image_url}
-                                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                                    placeholder="https://..."
-                                />
-                                {formData.image_url && (
-                                    <div className="mt-2 relative aspect-video rounded-md overflow-hidden border border-border">
-                                        <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
-                                    </div>
-                                )}
-                            </div>
+                            <ImageUpload
+                                value={formData.image_url}
+                                onChange={(url: string) => setFormData(prev => ({ ...prev, image_url: url }))}
+                                label="Cover Image"
+                                folder={uploadPath}
+                                customFileName={`${projectSlug}-cover`}
+                            />
                         </CardContent>
                     </Card>
 

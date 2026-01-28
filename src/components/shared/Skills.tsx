@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
     Code2,
     Server,
@@ -13,87 +13,33 @@ import {
     GitBranch,
     Zap,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
-const skillCategories = [
-    {
-        title: "Frontend",
-        icon: Code2,
-        color: "from-brand-start to-brand-middle",
-        skills: [
-            { name: "React", level: 95 },
-            { name: "Next.js", level: 90 },
-            { name: "TypeScript", level: 88 },
-            { name: "Tailwind CSS", level: 92 },
-            { name: "HTML/CSS", level: 95 },
-            { name: "JavaScript", level: 93 },
-        ],
-    },
-    {
-        title: "Backend",
-        icon: Server,
-        color: "from-brand-middle to-brand-end",
-        skills: [
-            { name: "Node.js", level: 90 },
-            { name: "Express.js", level: 88 },
-            { name: "Python", level: 80 },
-            { name: "REST APIs", level: 92 },
-            { name: "GraphQL", level: 75 },
-            { name: "Socket.io", level: 78 },
-        ],
-    },
-    {
-        title: "Database",
-        icon: Database,
-        color: "from-brand-end to-brand-start",
-        skills: [
-            { name: "PostgreSQL", level: 85 },
-            { name: "MongoDB", level: 88 },
-            { name: "MySQL", level: 82 },
-            { name: "Redis", level: 75 },
-            { name: "Prisma ORM", level: 85 },
-            { name: "Firebase", level: 80 },
-        ],
-    },
-    {
-        title: "DevOps & Cloud",
-        icon: Cloud,
-        color: "from-brand-start to-brand-end",
-        skills: [
-            { name: "Docker", level: 78 },
-            { name: "AWS", level: 72 },
-            { name: "Vercel", level: 90 },
-            { name: "CI/CD", level: 80 },
-            { name: "Linux", level: 75 },
-            { name: "Nginx", level: 70 },
-        ],
-    },
-    {
-        title: "Tools & Others",
-        icon: Wrench,
-        color: "from-brand-middle to-brand-start",
-        skills: [
-            { name: "Git & GitHub", level: 92 },
-            { name: "VS Code", level: 95 },
-            { name: "Figma", level: 70 },
-            { name: "Postman", level: 88 },
-            { name: "Jest", level: 75 },
-            { name: "Webpack", level: 72 },
-        ],
-    },
-    {
-        title: "Mobile",
-        icon: Smartphone,
-        color: "from-brand-end to-brand-middle",
-        skills: [
-            { name: "React Native", level: 80 },
-            { name: "Expo", level: 78 },
-            { name: "Flutter", level: 60 },
-            { name: "PWA", level: 85 },
-            { name: "Responsive Design", level: 92 },
-            { name: "Mobile-First", level: 90 },
-        ],
-    },
-];
+// Icon mapping
+const iconMap: Record<string, any> = {
+    Code2,
+    Server,
+    Database,
+    Palette,
+    Wrench,
+    Cloud,
+    Smartphone,
+    GitBranch,
+    Zap,
+};
+
+interface Skill {
+    name: string;
+    level: number;
+}
+
+interface SkillCategory {
+    title: string;
+    icon: any;
+    color: string;
+    skills: Skill[];
+}
+
 
 function SkillBar({
     name,
@@ -135,7 +81,7 @@ function SkillCard({
     category,
     index,
 }: {
-    category: (typeof skillCategories)[0];
+    category: SkillCategory;
     index: number;
 }) {
     const Icon = category.icon;
@@ -181,10 +127,67 @@ function SkillCard({
 
 export default function Skills() {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
+    const [loading, setLoading] = useState(true);
+    const supabase = createClient();
+
+    useEffect(() => {
+        const fetchSkills = async () => {
+            try {
+                // Fetch categories
+                const { data: categoriesData, error: categoriesError } =
+                    await (supabase
+                        .from("skill_categories") as any)
+                        .select("*")
+                        .order("display_order");
+
+                if (categoriesError) throw categoriesError;
+
+                // Fetch all skills
+                const { data: skillsData, error: skillsError } = await (supabase
+                    .from("skills") as any)
+                    .select("*")
+                    .order("display_order");
+
+                if (skillsError) throw skillsError;
+
+                // Combine categories with their skills
+                const categoriesWithSkills: SkillCategory[] =
+                    (categoriesData || []).map((category: any) => ({
+                        title: category.title,
+                        icon: iconMap[category.icon] || Code2,
+                        color: category.color,
+                        skills: (skillsData || [])
+                            .filter((skill: any) => skill.category_id === category.id)
+                            .map((skill: any) => ({
+                                name: skill.name,
+                                level: skill.level,
+                            })),
+                    }));
+
+                setSkillCategories(categoriesWithSkills);
+            } catch (error) {
+                console.error("Error fetching skills:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSkills();
+    }, []);
+
+    if (loading) {
+        return (
+            <section id="skills" className="relative py-8 md:py-12 overflow-hidden">
+                <div className="flex items-center justify-center min-h-[150px]">
+                    <div className="text-muted-foreground">Loading skills...</div>
+                </div>
+            </section>
+        );
+    }
 
     return (
-        <section id="skills" className="relative py-20 md:py-32 overflow-hidden">
+        <section id="skills" className="relative py-8 md:py-12 overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 -z-10">
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-start/10 rounded-full blur-[128px]" />
@@ -197,9 +200,10 @@ export default function Skills() {
                 <motion.div
                     ref={ref}
                     initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-8"
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
                         <Zap className="w-4 h-4 text-brand-start" />

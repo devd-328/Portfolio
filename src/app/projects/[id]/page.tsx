@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProjectById, projects } from "@/lib/data";
+import { createClient } from "@/lib/supabase/server";
 import { ProjectDetailClient } from "@/app/projects/[id]/ProjectDetailClient";
 
 type Props = {
@@ -8,14 +8,24 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-    return projects.map((project) => ({
+    const supabase = await createClient();
+    const { data: projects } = await (supabase
+        .from("projects") as any)
+        .select("id");
+
+    return (projects || []).map((project: { id: string }) => ({
         id: project.id,
     }));
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
     const params = await props.params;
-    const project = getProjectById(params.id);
+    const supabase = await createClient();
+    const { data: project } = await (supabase
+        .from("projects") as any)
+        .select("*")
+        .eq("id", params.id)
+        .single();
 
     if (!project) {
         return {
@@ -25,10 +35,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
     return {
         title: `${project.title} | Portfolio`,
-        description: project.shortDescription,
+        description: project.short_description,
         openGraph: {
             title: project.title,
-            description: project.shortDescription,
+            description: project.short_description,
             type: "article",
         },
     };
@@ -36,7 +46,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function ProjectPage(props: Props) {
     const params = await props.params;
-    const project = getProjectById(params.id);
+    const supabase = await createClient();
+    const { data: project } = await (supabase
+        .from("projects") as any)
+        .select("*")
+        .eq("id", params.id)
+        .single();
 
     if (!project) {
         notFound();

@@ -5,8 +5,14 @@ import { useRef, useEffect, useState } from "react";
 import { Download, MapPin, Calendar, Briefcase } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
+import { Database } from "@/types/supabase";
 
-const stats = [
+type SiteSettings = Database["public"]["Tables"]["site_settings"]["Row"];
+type Client = Database["public"]["Tables"]["clients"]["Row"];
+
+// Initial fallback stats
+const defaultStats = [
     { value: 3, suffix: "+", label: "Years Experience" },
     { value: 50, suffix: "+", label: "Projects Completed" },
     { value: 30, suffix: "+", label: "Happy Clients" },
@@ -48,13 +54,47 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export default function About() {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const [settings, setSettings] = useState<SiteSettings | null>(null);
+    const [clients, setClients] = useState<Client[]>([]);
+    const [loading, setLoading] = useState(true);
+    const supabase = createClient();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [settingsRes, clientsRes] = await Promise.all([
+                    (supabase.from("site_settings") as any).select("*").single(),
+                    (supabase.from("clients") as any).select("*").order("display_order")
+                ]);
+                if (!settingsRes.error) setSettings(settingsRes.data);
+                if (!clientsRes.error) setClients(clientsRes.data || []);
+            } catch (err) {
+                console.error("About: Error fetching data:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const aboutTitle = settings?.about_title || "Passionate Developer & Creative Problem Solver";
+    const aboutBio = settings?.about_bio || "Hello! I'm a Full Stack Developer with over 3 years of experience building web applications that are not only functional but also beautiful and user-friendly.";
+    const aboutImage = settings?.about_image_url || "/My-Professional-Pic.jpeg";
+    const resumeUrl = settings?.resume_url || "/Dev_Das_Resume.pdf";
+
+    const stats = [
+        { value: settings?.years_exp ?? 3, suffix: "+", label: "Years Experience" },
+        { value: settings?.projects_count ?? 50, suffix: "+", label: "Projects Completed" },
+        { value: settings?.clients_count ?? 30, suffix: "+", label: "Happy Clients" },
+        { value: settings?.satisfaction_rate ?? 99, suffix: "%", label: "Client Satisfaction" },
+    ];
+
+    if (loading) return null;
 
     return (
         <section
             id="about"
-            className="relative py-20 md:py-32 overflow-hidden"
+            className="relative py-12 md:py-16 overflow-hidden"
         >
             {/* Background Elements */}
             <div className="absolute inset-0 -z-10">
@@ -63,11 +103,12 @@ export default function About() {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div ref={ref} className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                     {/* Left - Image */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="relative order-2 lg:order-1"
                     >
@@ -80,10 +121,10 @@ export default function About() {
                             {/* Image Container */}
                             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border">
                                 <Image
-                                    src="/My-Professional-Pic.jpeg"
+                                    src={aboutImage}
                                     alt="About Profile Picture"
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     sizes="(max-width: 1024px) 100vw, 50vw"
                                 />
                             </div>
@@ -100,7 +141,7 @@ export default function About() {
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium">Full Stack Developer</p>
-                                        <p className="text-xs text-muted-foreground">3+ Years</p>
+                                        <p className="text-xs text-muted-foreground">{settings?.years_exp ?? 3}+ Years</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -126,7 +167,8 @@ export default function About() {
                     {/* Right - Content */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
                         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                         className="order-1 lg:order-2"
                     >
@@ -138,58 +180,47 @@ export default function About() {
 
                         {/* Title */}
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-                            Passionate Developer &{" "}
-                            <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
-                                Creative Problem Solver
-                            </span>
+                            {aboutTitle}
                         </h2>
 
                         {/* Description */}
                         <div className="space-y-4 text-muted-foreground">
-                            <p>
-                                Hello! I&apos;m a Full Stack Developer with over 3 years of experience
-                                building web applications that are not only functional but also
-                                beautiful and user-friendly.
-                            </p>
-                            <p>
-                                My journey in tech started with a curiosity about how things work
-                                on the internet, and it has evolved into a passion for creating
-                                digital experiences that make a difference. I specialize in modern
-                                JavaScript frameworks, with a focus on React, Next.js, and Node.js.
-                            </p>
-                            <p>
-                                When I&apos;m not coding, you&apos;ll find me exploring new technologies,
-                                contributing to open-source projects, or sharing knowledge with
-                                the developer community.
-                            </p>
+                            {aboutBio.split('\n').map((para, i) => (
+                                <p key={i}>{para}</p>
+                            ))}
                         </div>
 
                         {/* CTA Button */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.4 }}
                             className="mt-8"
                         >
                             <Button
+                                asChild
                                 size="lg"
-                                className="group bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg shadow-purple-500/25"
+                                className="group bg-gradient-to-r from-brand-start to-brand-middle hover:opacity-90 text-white shadow-lg shadow-brand-start/25"
                             >
-                                <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
-                                Download CV
+                                <a href={resumeUrl} download>
+                                    <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
+                                    Download CV
+                                </a>
                             </Button>
                         </motion.div>
 
                         {/* Stats */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.5 }}
                             className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6"
                         >
                             {stats.map((stat, index) => (
                                 <div key={index} className="text-center">
-                                    <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                    <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                                         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                                     </div>
                                     <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
@@ -198,6 +229,44 @@ export default function About() {
                         </motion.div>
                     </motion.div>
                 </div>
+
+                {/* Clients Section [NEW] */}
+                {clients.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className="mt-24"
+                    >
+                        <div className="text-center mb-10">
+                            <h3 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-4">Trusted By</h3>
+                            <div className="h-1 w-12 bg-gradient-to-r from-brand-start to-brand-middle mx-auto rounded-full" />
+                        </div>
+                        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                            {clients.map((client) => (
+                                <a
+                                    key={client.id}
+                                    href={client.website_url || "#"}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="relative w-24 h-12 md:w-32 md:h-16 group"
+                                >
+                                    {client.logo_url ? (
+                                        <Image
+                                            src={client.logo_url}
+                                            alt={client.name}
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    ) : (
+                                        <span className="flex items-center justify-center font-bold text-lg">{client.name}</span>
+                                    )}
+                                </a>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
             </div>
         </section>
     );

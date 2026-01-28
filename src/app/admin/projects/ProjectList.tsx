@@ -11,6 +11,7 @@ import {
     X,
     Loader2
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -43,10 +44,11 @@ export function ProjectList({ initialProjects }: ProjectListProps) {
 
             setProjects(prev => prev.filter(p => p.id !== id));
             setDeletingId(null);
+            toast.success("Project deleted successfully");
             router.refresh();
         } catch (error) {
             console.error("Error deleting project:", error);
-            alert("Failed to delete project");
+            toast.error("Failed to delete project");
         } finally {
             setIsDeleting(false);
         }

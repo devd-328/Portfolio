@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import {
     Mail,
@@ -52,7 +52,6 @@ type FormStatus = "idle" | "loading" | "success" | "error";
 
 export default function Contact() {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     const [formData, setFormData] = useState({
         name: "",
@@ -107,7 +106,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="relative py-20 md:py-32 overflow-hidden">
+        <section id="contact" className="relative py-12 md:py-16 overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 -z-10">
                 <div className="absolute top-1/4 left-0 w-96 h-96 bg-brand-start/10 rounded-full blur-[128px]" />
@@ -119,7 +118,8 @@ export default function Contact() {
                 <motion.div
                     ref={ref}
                     initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
@@ -236,7 +236,7 @@ export default function Contact() {
                                         Available for hire
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        Response time: 24-48 hours
+                                        Response time: 24 hours
                                     </p>
                                 </div>
                             </div>

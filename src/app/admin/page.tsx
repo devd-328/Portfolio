@@ -11,6 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import DashboardStats from "@/components/admin/DashboardStats";
 import Link from "next/link";
 import { formatDate } from "date-fns";
 
@@ -28,6 +29,34 @@ export default async function AdminDashboardPage() {
         .from("blogs")
         .select("*", { count: "exact", head: true });
 
+    const { count: viewsCount } = await (supabase
+        .from("page_views") as any)
+        .select("*", { count: "exact", head: true });
+
+    // Calculate Engagement (View growth last 24h vs previous 24h)
+    const now = new Date();
+    const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+    const last48h = new Date(now.getTime() - 48 * 60 * 60 * 1000).toISOString();
+
+    const { count: currentViews } = await (supabase
+        .from("page_views") as any)
+        .select("*", { count: "exact", head: true })
+        .gte("created_at", last24h);
+
+    const { count: previousViews } = await (supabase
+        .from("page_views") as any)
+        .select("*", { count: "exact", head: true })
+        .gte("created_at", last48h)
+        .lt("created_at", last24h);
+
+    let engagementValue = 0;
+    if (previousViews && previousViews > 0) {
+        engagementValue = Math.round(((currentViews || 0) - previousViews) / previousViews * 100);
+    } else if (currentViews && currentViews > 0) {
+        engagementValue = 100;
+    }
+    const engagement = engagementValue >= 0 ? `+${engagementValue}%` : `${engagementValue}%`;
+
     // Get recent logs/updates or similar
     const { data: projData } = await supabase
         .from("projects")
@@ -44,13 +73,6 @@ export default async function AdminDashboardPage() {
     const recentProjects = (projData as Project[] | null) || [];
     const recentBlogs = (blogData as Blog[] | null) || [];
 
-    const stats = [
-        { label: "Total Projects", value: projectsCount || 0, icon: Briefcase, color: "text-brand-start", bg: "bg-brand-start/10" },
-        { label: "Total Blogs", value: blogsCount || 0, icon: FileText, color: "text-brand-middle", bg: "bg-brand-middle/10" },
-        { label: "Page Views", value: "2.4k", icon: Eye, color: "text-brand-end", bg: "bg-brand-end/10" },
-        { label: "Engagement", value: "+12%", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-    ];
-
     return (
         <div className="space-y-8">
             <div>
@@ -58,23 +80,12 @@ export default async function AdminDashboardPage() {
                 <p className="text-muted-foreground">Welcome back to your portfolio management center.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {stats.map((stat) => (
-                    <Card key={stat.label} className="border-border/50 bg-card/50">
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                                    <h3 className="text-2xl font-bold mt-1">{stat.value}</h3>
-                                </div>
-                                <div className={stat.bg + " p-3 rounded-xl " + stat.color}>
-                                    <stat.icon className="w-5 h-5" />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
+            <DashboardStats
+                initialProjectsCount={projectsCount || 0}
+                initialBlogsCount={blogsCount || 0}
+                initialViewsCount={viewsCount || 0}
+                engagement={engagement}
+            />
 
             <div className="grid lg:grid-cols-2 gap-8">
                 {/* Recent Projects */}
