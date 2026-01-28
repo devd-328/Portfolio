@@ -15,12 +15,12 @@ export interface Database {
                     created_at: string
                     title: string
                     short_description: string
-                    full_description: string
-                    challenge: string
-                    solution: string
-                    result: string
-                    image_url: string
-                    gallery_urls: string[]
+                    full_description: string | null
+                    challenge: string | null
+                    solution: string | null
+                    result: string | null
+                    image_url: string | null
+                    gallery_urls: string[] | null
                     category: string
                     technologies: string[]
                     live_url: string | null
@@ -29,46 +29,49 @@ export interface Database {
                     year: string
                     duration: string
                     role: string
+                    slug: string | null
                 }
                 Insert: {
                     id?: string
                     created_at?: string
                     title: string
                     short_description: string
-                    full_description: string
-                    challenge: string
-                    solution: string
-                    result: string
-                    image_url: string
-                    gallery_urls: string[]
+                    full_description?: string | null
+                    challenge?: string | null
+                    solution?: string | null
+                    result?: string | null
                     category: string
-                    technologies: string[]
-                    live_url?: string | null
-                    github_url?: string | null
-                    featured?: boolean
                     year: string
                     duration: string
                     role: string
+                    live_url?: string | null
+                    github_url?: string | null
+                    featured?: boolean
+                    image_url?: string | null
+                    gallery_urls?: string[] | null
+                    technologies?: string[]
+                    slug?: string | null
                 }
                 Update: {
                     id?: string
                     created_at?: string
                     title?: string
                     short_description?: string
-                    full_description?: string
-                    challenge?: string
-                    solution?: string
-                    result?: string
-                    image_url?: string
-                    gallery_urls?: string[]
+                    full_description?: string | null
+                    challenge?: string | null
+                    solution?: string | null
+                    result?: string | null
                     category?: string
-                    technologies?: string[]
-                    live_url?: string | null
-                    github_url?: string | null
-                    featured?: boolean
                     year?: string
                     duration?: string
                     role?: string
+                    live_url?: string | null
+                    github_url?: string | null
+                    featured?: boolean
+                    image_url?: string | null
+                    gallery_urls?: string[] | null
+                    technologies?: string[]
+                    slug?: string | null
                 }
             }
             blogs: {

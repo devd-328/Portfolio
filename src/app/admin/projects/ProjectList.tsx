@@ -127,7 +127,7 @@ export function ProjectList({ initialProjects }: ProjectListProps) {
                                             </div>
                                         ) : (
                                             <>
-                                                <Link href={`/projects/${project.id}`} target="_blank" title="View Live">
+                                                <Link href={`/projects/${project.slug || project.id}`} target="_blank" title="View Live">
                                                     <Button variant="ghost" size="icon" className="h-9 w-9 hover:bg-purple-500/10 hover:text-purple-400">
                                                         <ExternalLink className="h-4 w-4" />
                                                     </Button>

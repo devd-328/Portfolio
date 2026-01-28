@@ -27,7 +27,7 @@ function ProjectCard({
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
         >
-            <Link href={`/projects/${project.id}`}>
+            <Link href={`/projects/${project.slug || project.id}`}>
                 <Card className="group relative overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-500 cursor-pointer">
                     {/* Image Container */}
                     <div className="relative aspect-video overflow-hidden">

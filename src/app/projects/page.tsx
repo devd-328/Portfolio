@@ -27,7 +27,7 @@ function ProjectCard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
         >
-            <Link href={`/projects/${project.id}`}>
+            <Link href={`/projects/${project.slug || project.id}`}>
                 <Card className="group relative overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-500 cursor-pointer h-full">
                     {/* Image Container */}
                     <div className="relative aspect-video overflow-hidden">
@@ -154,7 +154,7 @@ export default function ProjectsPage() {
                 // Extract unique categories
                 const uniqueCategories = Array.from(
                     new Set((data || []).map((p: Project) => p.category))
-                );
+                ) as string[];
                 setCategories(["All", ...uniqueCategories]);
             } catch (error) {
                 console.error("Error fetching projects:", error);

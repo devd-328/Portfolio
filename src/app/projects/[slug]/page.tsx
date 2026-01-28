@@ -1,20 +1,22 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { ProjectDetailClient } from "@/app/projects/[id]/ProjectDetailClient";
+import { ProjectDetailClient } from "@/app/projects/[slug]/ProjectDetailClient";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
     const supabase = await createClient();
     const { data: projects } = await (supabase
         .from("projects") as any)
-        .select("id");
+        .select("slug");
 
-    return (projects || []).map((project: { id: string }) => ({
-        id: project.id,
+    return (projects || []).map((project: { slug: string }) => ({
+        slug: project.slug,
     }));
 }
 
@@ -24,7 +26,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     const { data: project } = await (supabase
         .from("projects") as any)
         .select("*")
-        .eq("id", params.id)
+        .eq("slug", params.slug)
         .single();
 
     if (!project) {
@@ -50,7 +52,7 @@ export default async function ProjectPage(props: Props) {
     const { data: project } = await (supabase
         .from("projects") as any)
         .select("*")
-        .eq("id", params.id)
+        .eq("slug", params.slug)
         .single();
 
     if (!project) {

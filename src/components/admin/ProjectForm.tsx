@@ -57,12 +57,13 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         image_url: initialData?.image_url || "",
         gallery_urls: initialData?.gallery_urls || [],
         technologies: initialData?.technologies || [],
+        slug: initialData?.slug || "",
     });
     const [newTech, setNewTech] = useState("");
     const router = useRouter();
     const supabase = createClient();
 
-    const projectSlug = slugify(formData.title || "unnamed-project");
+    const projectSlug = formData.slug || slugify(formData.title || "unnamed-project");
     const uploadPath = `projects/${projectSlug}`;
 
     const handleSave = async (e: React.FormEvent) => {
@@ -146,6 +147,18 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                                     placeholder="E.g. E-Commerce Platform"
                                     required
                                 />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Slug (URL identifier)</label>
+                                <Input
+                                    value={formData.slug}
+                                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                    placeholder="e-commerce-platform"
+                                    required
+                                />
+                                <p className="text-xs text-muted-foreground italic">
+                                    Generated from title: {slugify(formData.title)}
+                                </p>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Short Description</label>

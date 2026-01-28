@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import ImageUpload from "@/components/admin/ImageUpload";
+import ResumeUpload from "@/components/admin/ResumeUpload";
 
 type SiteSettings = Database["public"]["Tables"]["site_settings"]["Row"];
 
@@ -220,20 +221,10 @@ export default function AboutPage() {
                                     folder="site"
                                     customFileName="about-profile"
                                 />
-                                <div className="space-y-2">
-                                    <Label>Resume / CV File Path</Label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            value={settings.resume_url}
-                                            onChange={e => setSettings({ ...settings, resume_url: e.target.value })}
-                                            placeholder="/resume.pdf"
-                                        />
-                                        <Button variant="outline" size="icon">
-                                            <FileText className="w-4 h-4" />
-                                        </Button>
-                                    </div>
-                                    <p className="text-[10px] text-muted-foreground italic">Url or public path to your dynamic PDF</p>
-                                </div>
+                                <ResumeUpload
+                                    value={settings.resume_url}
+                                    onChange={url => setSettings({ ...settings, resume_url: url })}
+                                />
                             </div>
                         </CardContent>
                     </Card>
