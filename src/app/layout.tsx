@@ -116,6 +116,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <SpeedInsights />
+          <Analytics />
           <Toaster richColors position="top-right" />
         </ThemeProvider>
       </body>
