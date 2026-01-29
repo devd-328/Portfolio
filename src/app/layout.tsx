@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar, Footer } from "@/components/shared";
 import { PageViewTracker } from "@/components/shared/PageViewTracker";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
@@ -110,6 +111,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <SpeedInsights />
           <Toaster richColors position="top-right" />
         </ThemeProvider>
       </body>
