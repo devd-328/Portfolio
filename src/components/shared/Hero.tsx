@@ -11,27 +11,12 @@ import { Database } from "@/types/supabase";
 
 type SiteSettings = Database["public"]["Tables"]["site_settings"]["Row"];
 
-export default function Hero() {
-    const [settings, setSettings] = useState<SiteSettings | null>(null);
-    const [loading, setLoading] = useState(true);
-    const supabase = createClient();
+interface HeroProps {
+    settings?: SiteSettings | null;
+    loading?: boolean;
+}
 
-    useEffect(() => {
-        const fetchSettings = async () => {
-            try {
-                const { data, error } = await (supabase
-                    .from("site_settings") as any)
-                    .select("*")
-                    .single();
-                if (!error) setSettings(data);
-            } catch (err) {
-                console.error("Hero: Error fetching settings:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchSettings();
-    }, []);
+export default function Hero({ settings, loading = false }: HeroProps) {
 
     // Fallbacks
     const heroTitle = settings?.hero_title || "Hi, I'm";
@@ -76,30 +61,24 @@ export default function Hero() {
                 {/* Animated Grid */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
 
-                {/* Floating Orbs */}
+                {/* Optimized Floating Orbs - Reduced quantity and simplified animations */}
                 <motion.div
                     animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-start/20 rounded-full blur-[128px]"
-                />
-                <motion.div
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.3, 0.5, 0.3],
+                        scale: [1, 1.1, 1],
+                        opacity: [0.2, 0.3, 0.2],
                     }}
                     transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-middle/20 rounded-full blur-[128px]"
+                    style={{ willChange: "transform, opacity" }}
+                    className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-start/15 rounded-full blur-[128px]"
                 />
                 <motion.div
                     animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.2, 0.4, 0.2],
+                        scale: [1.1, 1, 1.1],
+                        opacity: [0.2, 0.3, 0.2],
                     }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-end/10 rounded-full blur-[128px]"
+                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ willChange: "transform, opacity" }}
+                    className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-middle/15 rounded-full blur-[128px]"
                 />
             </div>
 

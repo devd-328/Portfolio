@@ -11,13 +11,11 @@ import { Database } from "@/types/supabase";
 type SiteSettings = Database["public"]["Tables"]["site_settings"]["Row"];
 type Client = Database["public"]["Tables"]["clients"]["Row"];
 
-// Initial fallback stats
-const defaultStats = [
-    { value: 3, suffix: "+", label: "Years Experience" },
-    { value: 50, suffix: "+", label: "Projects Completed" },
-    { value: 30, suffix: "+", label: "Happy Clients" },
-    { value: 99, suffix: "%", label: "Client Satisfaction" },
-];
+interface AboutProps {
+    settings?: SiteSettings | null;
+    clients?: Client[];
+    loading?: boolean;
+}
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
     const [count, setCount] = useState(0);
@@ -53,29 +51,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
     );
 }
 
-export default function About() {
-    const [settings, setSettings] = useState<SiteSettings | null>(null);
-    const [clients, setClients] = useState<Client[]>([]);
-    const [loading, setLoading] = useState(true);
-    const supabase = createClient();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [settingsRes, clientsRes] = await Promise.all([
-                    (supabase.from("site_settings") as any).select("*").single(),
-                    (supabase.from("clients") as any).select("*").order("display_order")
-                ]);
-                if (!settingsRes.error) setSettings(settingsRes.data);
-                if (!clientsRes.error) setClients(clientsRes.data || []);
-            } catch (err) {
-                console.error("About: Error fetching data:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
+export default function About({ settings, clients = [], loading = false }: AboutProps) {
 
     const aboutTitle = settings?.about_title || "Passionate Developer & Creative Problem Solver";
     const aboutBio = settings?.about_bio || "Hello! I'm a Full Stack Developer with over 3 years of experience building web applications that are not only functional but also beautiful and user-friendly.";
@@ -155,6 +131,7 @@ export default function About() {
                             <motion.div
                                 animate={{ y: [-5, 5, -5] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                style={{ willChange: "transform" }}
                                 className="absolute -right-4 top-[45%] lg:top-1/4 p-4 rounded-xl bg-background/80 backdrop-blur-sm border border-border shadow-lg"
                             >
                                 <div className="flex items-center gap-3">
@@ -171,6 +148,7 @@ export default function About() {
                             <motion.div
                                 animate={{ y: [5, -5, 5] }}
                                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                style={{ willChange: "transform" }}
                                 className="absolute -left-4 bottom-[10%] lg:bottom-1/4 p-4 rounded-xl bg-background/80 backdrop-blur-sm border border-border shadow-lg"
                             >
                                 <div className="flex items-center gap-3">

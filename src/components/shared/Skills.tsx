@@ -125,56 +125,13 @@ function SkillCard({
     );
 }
 
-export default function Skills() {
+interface SkillsProps {
+    skillCategories?: SkillCategory[];
+    loading?: boolean;
+}
+
+export default function Skills({ skillCategories = [], loading = false }: SkillsProps) {
     const ref = useRef(null);
-    const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
-    const [loading, setLoading] = useState(true);
-    const supabase = createClient();
-
-    useEffect(() => {
-        const fetchSkills = async () => {
-            try {
-                // Fetch categories
-                const { data: categoriesData, error: categoriesError } =
-                    await (supabase
-                        .from("skill_categories") as any)
-                        .select("*")
-                        .order("display_order");
-
-                if (categoriesError) throw categoriesError;
-
-                // Fetch all skills
-                const { data: skillsData, error: skillsError } = await (supabase
-                    .from("skills") as any)
-                    .select("*")
-                    .order("display_order");
-
-                if (skillsError) throw skillsError;
-
-                // Combine categories with their skills
-                const categoriesWithSkills: SkillCategory[] =
-                    (categoriesData || []).map((category: any) => ({
-                        title: category.title,
-                        icon: iconMap[category.icon] || Code2,
-                        color: category.color,
-                        skills: (skillsData || [])
-                            .filter((skill: any) => skill.category_id === category.id)
-                            .map((skill: any) => ({
-                                name: skill.name,
-                                level: skill.level,
-                            })),
-                    }));
-
-                setSkillCategories(categoriesWithSkills);
-            } catch (error) {
-                console.error("Error fetching skills:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSkills();
-    }, []);
 
     if (loading) {
         return (
