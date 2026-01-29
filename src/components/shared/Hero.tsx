@@ -40,7 +40,9 @@ export default function Hero() {
     const heroImage = settings?.hero_image_url || "/My-Professional-Pic.jpeg";
     const available = settings?.available_for_hire ?? true;
 
-    if (loading) return null;
+    if (loading) {
+        return <section className="min-h-screen bg-background" />;
+    }
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">

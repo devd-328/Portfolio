@@ -89,7 +89,9 @@ export default function About() {
         { value: settings?.satisfaction_rate ?? 99, suffix: "%", label: "Client Satisfaction" },
     ];
 
-    if (loading) return null;
+    if (loading) {
+        return <section className="min-h-[500px] bg-background" />;
+    }
 
     return (
         <section
