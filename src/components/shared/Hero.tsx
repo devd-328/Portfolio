@@ -126,6 +126,15 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                         >
                             {heroSubtitle}
                         </motion.p>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.45 }}
+                            className="mt-3 text-base text-muted-foreground/70 max-w-2xl mx-auto lg:mx-0"
+                        >
+                            I build modern websites and web applications using React, Next.js, TypeScript, and Supabase.
+                            Let&apos;s create something amazing together.
+                        </motion.p>
 
                         {/* CTA Buttons */}
                         <motion.div

@@ -176,9 +176,17 @@ export default function Skills({ skillCategories = [], loading = false }: Skills
                         </span>
                     </h2>
 
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
+                    <p className="text-muted-foreground max-w-2xl mx-auto mb-4">
                         A comprehensive overview of my technical skills across different
                         domains of software development, from frontend to DevOps.
+                    </p>
+                    <p className="text-muted-foreground/80 max-w-3xl mx-auto text-sm">
+                        With years of hands-on experience building production-ready web applications,
+                        I specialize in creating fast, scalable, and user-friendly digital products.
+                        My expertise spans modern JavaScript frameworks like React and Next.js,
+                        backend technologies including Node.js and Python, and cloud platforms such as
+                        Vercel, AWS, and Supabase. I am passionate about clean code, performance optimization,
+                        and delivering exceptional user experiences.
                     </p>
                 </motion.div>
 
