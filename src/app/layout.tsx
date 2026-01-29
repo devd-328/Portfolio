@@ -69,6 +69,15 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://devdas.tech",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png" },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -105,6 +114,17 @@ export default function RootLayout({
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Dev Das",
+              "url": "https://devdas.tech"
+            }),
+          }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -116,6 +136,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <SpeedInsights />
+          <Analytics />
           <Toaster richColors position="top-right" />
         </ThemeProvider>
       </body>
