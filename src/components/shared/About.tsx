@@ -133,7 +133,7 @@ export default function About() {
                             <motion.div
                                 animate={{ y: [-5, 5, -5] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -right-4 top-1/4 p-4 rounded-xl bg-background/80 backdrop-blur-sm border border-border shadow-lg"
+                                className="absolute -right-4 top-[45%] lg:top-1/4 p-4 rounded-xl bg-background/80 backdrop-blur-sm border border-border shadow-lg"
                             >
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 rounded-lg bg-brand-start/20">
@@ -149,7 +149,7 @@ export default function About() {
                             <motion.div
                                 animate={{ y: [5, -5, 5] }}
                                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -left-4 bottom-1/4 p-4 rounded-xl bg-background/80 backdrop-blur-sm border border-border shadow-lg"
+                                className="absolute -left-4 bottom-[10%] lg:bottom-1/4 p-4 rounded-xl bg-background/80 backdrop-blur-sm border border-border shadow-lg"
                             >
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 rounded-lg bg-brand-middle/20">
