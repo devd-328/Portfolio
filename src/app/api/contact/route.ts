@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { validateCors, handleOptions, corsHeaders } from "@/lib/security/cors";
 
 interface ContactFormData {
     name: string;
@@ -27,7 +28,16 @@ function createTransporter() {
     });
 }
 
+export async function OPTIONS(request: NextRequest) {
+    return handleOptions(request);
+}
+
 export async function POST(request: NextRequest) {
+    // Validate CORS
+    if (!validateCors(request)) {
+        return new NextResponse("Forbidden", { status: 403 });
+    }
+
     try {
         const body: ContactFormData = await request.json();
 
