@@ -5,6 +5,7 @@ import { Navbar, Footer } from "@/components/shared";
 import { PageViewTracker } from "@/components/shared/PageViewTracker";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
