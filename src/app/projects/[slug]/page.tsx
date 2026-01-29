@@ -38,6 +38,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return {
         title: `${project.title} | Portfolio`,
         description: project.short_description,
+        alternates: {
+            canonical: `https://devdas.tech/projects/${params.slug}`,
+        },
         openGraph: {
             title: project.title,
             description: project.short_description,

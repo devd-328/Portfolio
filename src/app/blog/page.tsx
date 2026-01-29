@@ -10,6 +10,9 @@ import { Calendar, ArrowRight } from "lucide-react";
 export const metadata = {
     title: "Blog | Portfolio",
     description: "Thoughts, tutorials, and insights on software development.",
+    alternates: {
+        canonical: "https://devdas.tech/blog",
+    },
 };
 
 export default async function BlogPage() {

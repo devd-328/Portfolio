@@ -34,6 +34,9 @@ export async function generateMetadata({ params }: PageProps) {
     return {
         title: `${typedBlog.title} | Portfolio`,
         description: typedBlog.excerpt,
+        alternates: {
+            canonical: `https://devdas.tech/blog/${slug}`,
+        },
     }
 }
 

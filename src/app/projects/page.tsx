@@ -4,6 +4,14 @@ import { Database } from "@/types/supabase";
 
 type Project = Database["public"]["Tables"]["projects"]["Row"];
 
+export const metadata = {
+    title: "Projects | Portfolio",
+    description: "A showcase of my latest web development projects.",
+    alternates: {
+        canonical: "https://devdas.tech/projects",
+    },
+};
+
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function ProjectsPage() {
