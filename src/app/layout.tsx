@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://github.com/devd-328"),
+  metadataBase: new URL("https://devdas.tech"),
   title: {
     default: "Dev Das | Full Stack Developer",
     template: "%s | Dev Das",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://github.com/devd-328",
+    url: "https://devdas.tech",
     title: "Dev Das | Full Stack Developer",
     description: "Personal portfolio of Dev Das, a Full Stack Developer.",
     siteName: "Dev Das Portfolio",
@@ -89,7 +89,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Dev Das",
-              url: "https://github.com/devd-328",
+              url: "https://devdas.tech",
               jobTitle: "Full Stack Developer",
               description:
                 "Professional Full Stack Developer specializing in React, Next.js, and modern web technologies.",

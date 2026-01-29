@@ -6,7 +6,7 @@ type Project = Database['public']['Tables']['projects']['Row']
 type Blog = Database['public']['Tables']['blogs']['Row']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://your-portfolio-url.com'
+    const baseUrl = 'https://devdas.tech'
     const supabase = await createClient()
 
     // Fetch all projects
