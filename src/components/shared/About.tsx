@@ -90,7 +90,27 @@ export default function About() {
     ];
 
     if (loading) {
-        return <section className="min-h-[500px] bg-background" />;
+        return (
+            <section className="relative py-12 md:py-16 overflow-hidden bg-background">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                        <div className="relative animate-pulse order-2 lg:order-1">
+                            <div className="aspect-[4/5] rounded-2xl bg-muted" />
+                        </div>
+                        <div className="space-y-6 animate-pulse order-1 lg:order-2">
+                            <div className="h-8 w-32 bg-muted rounded-full" />
+                            <div className="h-12 w-3/4 bg-muted rounded-xl" />
+                            <div className="space-y-3">
+                                <div className="h-4 w-full bg-muted rounded-md" />
+                                <div className="h-4 w-full bg-muted rounded-md" />
+                                <div className="h-4 w-2/3 bg-muted rounded-md" />
+                            </div>
+                            <div className="h-12 w-44 bg-muted rounded-xl" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
     }
 
     return (

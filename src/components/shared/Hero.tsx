@@ -41,7 +41,29 @@ export default function Hero() {
     const available = settings?.available_for_hire ?? true;
 
     if (loading) {
-        return <section className="min-h-screen bg-background" />;
+        return (
+            <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 w-full">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        <div className="space-y-8 animate-pulse text-center lg:text-left">
+                            <div className="h-10 w-48 bg-muted rounded-full mx-auto lg:mx-0" />
+                            <div className="space-y-4">
+                                <div className="h-16 w-3/4 bg-muted rounded-2xl mx-auto lg:mx-0" />
+                                <div className="h-16 w-1/2 bg-muted rounded-2xl mx-auto lg:mx-0" />
+                            </div>
+                            <div className="h-20 w-full bg-muted rounded-2xl" />
+                            <div className="flex gap-4 justify-center lg:justify-start">
+                                <div className="h-12 w-40 bg-muted rounded-xl" />
+                                <div className="h-12 w-40 bg-muted rounded-xl" />
+                            </div>
+                        </div>
+                        <div className="relative flex justify-center animate-pulse">
+                            <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full bg-muted shadow-2xl" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
     }
 
     return (
