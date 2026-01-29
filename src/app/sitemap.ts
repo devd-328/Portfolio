@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fetch all projects
     const { data: projects } = await supabase
         .from('projects')
-        .select('id, created_at')
+        .select('slug, created_at')
 
     // Fetch all published blogs
     const { data: blogs } = await supabase
@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         .eq('published', true)
 
     const projectUrls = (projects as Project[] || []).map((project) => ({
-        url: `${baseUrl}/projects/${project.id}`,
+        url: `${baseUrl}/projects/${project.slug}`,
         lastModified: new Date(project.created_at),
         changeFrequency: 'monthly' as const,
         priority: 0.7,
