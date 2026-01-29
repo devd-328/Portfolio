@@ -49,20 +49,13 @@ export async function updateSession(request: NextRequest) {
 
     if (isAdminPath && !isLoginPage) {
         if (!user) {
-            // no user, potentially respond by redirecting the user to the login page
+            // no user, redirect to login page
             const url = request.nextUrl.clone();
             url.pathname = "/admin/login";
             return NextResponse.redirect(url);
         }
-
-        // RBAC: Check if user is admin
-        // We check app_metadata or user_metadata for role
-        const role = user.app_metadata?.role || user.user_metadata?.role;
-        if (role !== "admin") {
-            const url = request.nextUrl.clone();
-            url.pathname = "/"; // Redirect unauthorized to home
-            return NextResponse.redirect(url);
-        }
+        // User is authenticated - allow access
+        // For personal portfolio, being logged in is sufficient
     }
 
     if (isLoginPage && user) {
