@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { Lock, Mail, Loader2, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { isDeviceTrusted } from "@/lib/auth/device-trust";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -32,7 +33,23 @@ export default function LoginPage() {
             setError(error.message);
             setLoading(false);
         } else {
-            router.push("/admin");
+            // Check if user has MFA enrolled
+            const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+
+            // If user has MFA and is at aal1 (needs to verify), check device trust
+            if (aalData?.nextLevel === "aal2" && aalData?.currentLevel !== "aal2") {
+                // User has MFA enrolled, check if device is trusted
+                if (isDeviceTrusted()) {
+                    // Device is trusted, skip MFA verification
+                    router.push("/admin");
+                } else {
+                    // Device not trusted, redirect to MFA verification
+                    router.push("/admin/verify");
+                }
+            } else {
+                // No MFA or already verified, go to admin
+                router.push("/admin");
+            }
             router.refresh();
         }
     };

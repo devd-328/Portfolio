@@ -45,9 +45,11 @@ export async function updateSession(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     const isLoginPage = request.nextUrl.pathname === "/admin/login";
+    const isVerifyPage = request.nextUrl.pathname === "/admin/verify";
+    const isAuthPage = isLoginPage || isVerifyPage;
     const isAdminPath = request.nextUrl.pathname.startsWith("/admin");
 
-    if (isAdminPath && !isLoginPage) {
+    if (isAdminPath && !isAuthPage) {
         if (!user) {
             // no user, redirect to login page
             const url = request.nextUrl.clone();
