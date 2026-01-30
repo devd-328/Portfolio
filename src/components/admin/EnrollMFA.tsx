@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, AlertCircle, CheckCircle2, Smartphone, Shield } from "lucide-react";
 import { motion } from "framer-motion";
+import { trustDevice } from "@/lib/auth/device-trust";
 
 interface EnrollMFAProps {
     onEnrolled: () => void;
@@ -107,6 +108,9 @@ export function EnrollMFA({ onEnrolled, onCancelled }: EnrollMFAProps) {
                 setVerifying(false);
                 return;
             }
+
+            // Trust the current device since they just verified it
+            trustDevice();
 
             // Success!
             onEnrolled();

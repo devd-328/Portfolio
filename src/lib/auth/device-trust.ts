@@ -25,7 +25,11 @@ export function isDeviceTrusted(): boolean {
         const token = localStorage.getItem(DEVICE_TRUST_KEY);
         const timestamp = localStorage.getItem(DEVICE_TRUST_TIMESTAMP_KEY);
 
-        if (!token || !timestamp) return false;
+        if (!token || !timestamp) {
+            // Check if cookie exists as fallback (or primary for middleware)
+            const hasCookie = document.cookie.split(';').some((item) => item.trim().startsWith(`${DEVICE_TRUST_KEY}=`));
+            return hasCookie;
+        }
 
         // Check if trust has expired (30 days)
         const trustTime = parseInt(timestamp, 10);
@@ -52,8 +56,15 @@ export function trustDevice(): void {
 
     try {
         const token = crypto.randomUUID();
+        const timestamp = Date.now().toString();
+
+        // Store in localStorage
         localStorage.setItem(DEVICE_TRUST_KEY, token);
-        localStorage.setItem(DEVICE_TRUST_TIMESTAMP_KEY, Date.now().toString());
+        localStorage.setItem(DEVICE_TRUST_TIMESTAMP_KEY, timestamp);
+
+        // Store in Cookie for Middleware access (30 days)
+        const expires = new Date(Date.now() + TRUST_DURATION_MS).toUTCString();
+        document.cookie = `${DEVICE_TRUST_KEY}=${token}; path=/; expires=${expires}; SameSite=Strict; Secure`;
     } catch (error) {
         console.error('Failed to trust device:', error);
     }
@@ -66,8 +77,12 @@ export function revokeDeviceTrust(): void {
     if (typeof window === 'undefined') return;
 
     try {
+        // Clear localStorage
         localStorage.removeItem(DEVICE_TRUST_KEY);
         localStorage.removeItem(DEVICE_TRUST_TIMESTAMP_KEY);
+
+        // Clear Cookie
+        document.cookie = `${DEVICE_TRUST_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict; Secure`;
     } catch (error) {
         console.error('Failed to revoke device trust:', error);
     }
