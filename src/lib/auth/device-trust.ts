@@ -8,7 +8,7 @@
  * Clearing browser cache/localStorage will revoke trust and require MFA again.
  */
 
-const DEVICE_TRUST_KEY = 'portfolio_admin_device_trust';
+export const DEVICE_TRUST_KEY = 'portfolio_admin_device_trust';
 const DEVICE_TRUST_TIMESTAMP_KEY = 'portfolio_admin_device_trust_timestamp';
 
 // Trust duration: 30 days (in milliseconds)
@@ -64,7 +64,7 @@ export function trustDevice(): void {
 
         // Store in Cookie for Middleware access (30 days)
         const expires = new Date(Date.now() + TRUST_DURATION_MS).toUTCString();
-        document.cookie = `${DEVICE_TRUST_KEY}=${token}; path=/; expires=${expires}; SameSite=Strict; Secure`;
+        document.cookie = `${DEVICE_TRUST_KEY}=${token}; path=/; expires=${expires}; SameSite=Lax; Secure`;
     } catch (error) {
         console.error('Failed to trust device:', error);
     }
@@ -82,7 +82,7 @@ export function revokeDeviceTrust(): void {
         localStorage.removeItem(DEVICE_TRUST_TIMESTAMP_KEY);
 
         // Clear Cookie
-        document.cookie = `${DEVICE_TRUST_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict; Secure`;
+        document.cookie = `${DEVICE_TRUST_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax; Secure`;
     } catch (error) {
         console.error('Failed to revoke device trust:', error);
     }

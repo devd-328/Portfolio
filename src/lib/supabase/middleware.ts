@@ -58,18 +58,25 @@ export async function updateSession(request: NextRequest) {
         }
 
         // Check Multi-Factor Authentication (MFA)
-        const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+        const { data: aal, error: aalError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
 
-        if (aal?.nextLevel === "aal2" && aal?.currentLevel !== "aal2") {
-            // User has MFA enabled but hasn't verified this session
-            // Check for trusted device cookie
-            const isTrusted = request.cookies.has("portfolio_admin_device_trust");
+        if (aalError) {
+            console.error("MFA AAL Error:", aalError);
+        }
 
-            if (!isTrusted) {
-                // Not trusted and MFA needed, redirect to verify page
-                const url = request.nextUrl.clone();
-                url.pathname = "/admin/verify";
-                return NextResponse.redirect(url);
+        // If nextLevel is aal2, it means the user HAS MFA factors enrolled
+        if (aal?.nextLevel === "aal2") {
+            // If they are not ALREADY at aal2, they need to verify
+            if (aal.currentLevel !== "aal2") {
+                // Check if this device is trusted via cookie
+                const isTrusted = request.cookies.has("portfolio_admin_device_trust");
+
+                if (!isTrusted) {
+                    // Force redirect to verify page
+                    const url = request.nextUrl.clone();
+                    url.pathname = "/admin/verify";
+                    return NextResponse.redirect(url);
+                }
             }
         }
     }
