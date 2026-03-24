@@ -13,6 +13,7 @@ const navLinks = [
     { name: "About", href: "/#about" },
     { name: "Projects", href: "/#projects" },
     { name: "Skills", href: "/#skills" },
+    { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/#contact" },
 ];
 
@@ -81,7 +82,7 @@ export default function Navbar() {
                         {/* Logo */}
                         <Link href="/" className="relative group">
                             <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
-                                Portfolio
+                                Dev Das
                             </span>
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-start to-brand-end transition-all duration-300 group-hover:w-full" />
                         </Link>

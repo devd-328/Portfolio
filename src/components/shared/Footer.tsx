@@ -22,6 +22,7 @@ const footerLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
     { name: "Projects", href: "/#projects" },
+    { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/#contact" },
 ];
 
@@ -79,7 +80,7 @@ export default function Footer() {
                     >
                         <Link href="/" className="inline-block">
                             <span className="text-2xl font-bold bg-gradient-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
-                                Portfolio
+                                Dev Das
                             </span>
                         </Link>
                         <p className="text-muted-foreground text-sm max-w-xs">
@@ -128,19 +129,19 @@ export default function Footer() {
                             {socialLinks
                                 .filter((social) => social.href && social.href !== "mailto:" && social.href.length > 0)
                                 .map((social) => (
-                                <motion.a
-                                    key={social.name}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    whileHover={{ scale: 1.1, y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="p-2.5 rounded-full bg-muted hover:bg-gradient-to-r hover:from-brand-start/20 hover:to-brand-middle/20 text-muted-foreground hover:text-foreground transition-all duration-300 border border-transparent hover:border-brand-start/30"
-                                    aria-label={social.name}
-                                >
-                                    <social.icon className="w-5 h-5" />
-                                </motion.a>
-                            ))}
+                                    <motion.a
+                                        key={social.name}
+                                        href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        whileHover={{ scale: 1.1, y: -2 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="p-2.5 rounded-full bg-muted hover:bg-gradient-to-r hover:from-brand-start/20 hover:to-brand-middle/20 text-muted-foreground hover:text-foreground transition-all duration-300 border border-transparent hover:border-brand-start/30"
+                                        aria-label={social.name}
+                                    >
+                                        <social.icon className="w-5 h-5" />
+                                    </motion.a>
+                                ))}
                         </div>
                     </motion.div>
                 </div>
@@ -154,7 +155,7 @@ export default function Footer() {
                     className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4"
                 >
                     <p className="text-muted-foreground text-sm flex items-center gap-1">
-                        © {new Date().getFullYear()} Portfolio. Made with{" "}
+                        © {new Date().getFullYear()} Dev Das. Made with{" "}
                         <Heart className="w-4 h-4 text-brand-start fill-brand-start animate-pulse" />{" "}
 
                     </p>
