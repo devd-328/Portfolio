@@ -8,3 +8,4 @@ export { default as Contact } from "./Contact";
 export { ThemeProvider } from "./ThemeProvider";
 export { ThemeToggle } from "./ThemeToggle";
 export { PageViewTracker } from "./PageViewTracker";
+export { ProjectGallery } from "./ProjectGallery";

@@ -24,9 +24,10 @@ function ProjectCard({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="h-full"
         >
-            <Link href={`/projects/${project.slug || project.id}`}>
-                <Card className="group relative overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-500 cursor-pointer h-full">
+            <Link href={`/projects/${project.slug || project.id}`} className="h-full block">
+                <Card className="group relative overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-500 cursor-pointer h-full flex flex-col">
                     {/* Image Container */}
                     <div className="relative aspect-video overflow-hidden">
                         {project.image_url ? (
@@ -88,7 +89,7 @@ function ProjectCard({
                         )}
                     </div>
 
-                    <CardContent className="p-6">
+                    <CardContent className="p-6 flex-1 flex flex-col">
                         {/* Category */}
                         <Badge
                             variant="secondary"
@@ -107,21 +108,23 @@ function ProjectCard({
                             {project.short_description}
                         </p>
 
-                        {/* Technologies */}
-                        <div className="flex flex-wrap gap-2">
-                            {project.technologies.slice(0, 4).map((tech) => (
-                                <span
-                                    key={tech}
-                                    className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
-                            {project.technologies.length > 4 && (
-                                <span className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground">
-                                    +{project.technologies.length - 4}
-                                </span>
-                            )}
+                        <div className="mt-auto">
+                            {/* Technologies */}
+                            <div className="flex flex-wrap gap-2">
+                                {project.technologies.slice(0, 4).map((tech) => (
+                                    <span
+                                        key={tech}
+                                        className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground"
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                                {project.technologies.length > 4 && (
+                                    <span className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground">
+                                        +{project.technologies.length - 4}
+                                    </span>
+                                )}
+                            </div>
                         </div>
                     </CardContent>
                 </Card>

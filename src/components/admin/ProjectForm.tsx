@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import RichTextEditor from "./RichTextEditor";
 
 interface ProjectFormProps {
     initialData?: any;
@@ -171,10 +172,9 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Full Description</label>
-                                <Textarea
+                                <RichTextEditor
                                     value={formData.full_description}
-                                    onChange={(e) => setFormData({ ...formData, full_description: e.target.value })}
-                                    rows={4}
+                                    onChange={(content) => setFormData({ ...formData, full_description: content })}
                                     placeholder="Detailed project summary..."
                                 />
                             </div>

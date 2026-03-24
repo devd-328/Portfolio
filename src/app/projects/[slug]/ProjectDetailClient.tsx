@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Database } from "@/types/supabase";
+import { ProjectGallery } from "@/components/shared/ProjectGallery";
+import DOMPurify from "isomorphic-dompurify";
 
 type Project = Database["public"]["Tables"]["projects"]["Row"];
 
@@ -56,9 +58,10 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                         </Link>
                     </motion.div>
 
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <div className="grid lg:grid-cols-2 gap-12 items-start overflow-hidden">
                         {/* Left - Content */}
                         <motion.div
+                            className="min-w-0 w-full overflow-hidden"
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
@@ -69,14 +72,17 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                             </Badge>
 
                             {/* Title */}
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 break-words">
                                 {project.title}
                             </h1>
 
                             {/* Description */}
-                            <p className="text-lg text-muted-foreground mb-8">
-                                {project.full_description}
-                            </p>
+                            <div
+                                className="text-lg text-muted-foreground mb-8 rich-text-content w-full"
+                                dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(project.full_description || "")
+                                }}
+                            />
 
                             {/* Meta Info */}
                             <div className="flex flex-wrap gap-6 mb-8">
@@ -281,32 +287,11 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                         </p>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {(project.gallery_urls || []).map((image, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                whileHover={{ scale: 1.02 }}
-                                className="relative aspect-video rounded-xl overflow-hidden border border-border bg-gradient-to-br from-brand-start/10 via-background to-brand-middle/10"
-                            >
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    {image && image.startsWith("http") ? (
-                                        <Image
-                                            src={image}
-                                            alt={`${project.title} screenshot ${index + 1}`}
-                                            fill
-                                            className="object-cover transition-transform duration-500 hover:scale-110"
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                        />
-                                    ) : (
-                                        <Folder className="w-12 h-12 text-muted-foreground/30" />
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
+                    <div className="mt-8">
+                        <ProjectGallery
+                            images={project.gallery_urls || []}
+                            projectTitle={project.title}
+                        />
                     </div>
                 </div>
             </section>
