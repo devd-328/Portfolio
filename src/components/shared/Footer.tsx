@@ -66,7 +66,7 @@ export default function Footer() {
     return (
         <footer className="relative bg-muted/30 border-t border-border">
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-t from-background to-transparent pointer-events-none" />
 
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -79,7 +79,7 @@ export default function Footer() {
                         className="space-y-4"
                     >
                         <Link href="/" className="inline-block">
-                            <span className="text-2xl font-bold bg-gradient-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
+                            <span className="text-2xl font-bold bg-linear-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
                                 Dev Das
                             </span>
                         </Link>
@@ -106,7 +106,7 @@ export default function Footer() {
                                         href={link.href}
                                         className="text-muted-foreground hover:text-foreground transition-colors text-sm inline-flex items-center gap-1 group"
                                     >
-                                        <span className="w-0 group-hover:w-2 h-0.5 bg-gradient-to-r from-brand-start to-brand-middle transition-all duration-300 rounded-full" />
+                                        <span className="w-0 group-hover:w-2 h-0.5 bg-linear-to-r from-brand-start to-brand-middle transition-all duration-300 rounded-full" />
                                         {link.name}
                                     </Link>
                                 </li>
@@ -136,7 +136,7 @@ export default function Footer() {
                                         rel="noopener noreferrer"
                                         whileHover={{ scale: 1.1, y: -2 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="p-2.5 rounded-full bg-muted hover:bg-gradient-to-r hover:from-brand-start/20 hover:to-brand-middle/20 text-muted-foreground hover:text-foreground transition-all duration-300 border border-transparent hover:border-brand-start/30"
+                                        className="p-2.5 rounded-full bg-muted hover:bg-linear-to-r hover:from-brand-start/20 hover:to-brand-middle/20 text-muted-foreground hover:text-foreground transition-all duration-300 border border-transparent hover:border-brand-start/30"
                                         aria-label={social.name}
                                     >
                                         <social.icon className="w-5 h-5" />
@@ -165,7 +165,7 @@ export default function Footer() {
                         onClick={scrollToTop}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="group flex items-center gap-2 px-4 py-2 rounded-full bg-muted hover:bg-gradient-to-r hover:from-brand-start hover:to-brand-end text-muted-foreground hover:text-white transition-all duration-300 text-sm font-medium"
+                        className="group flex items-center gap-2 px-4 py-2 rounded-full bg-muted hover:bg-linear-to-r hover:from-brand-start hover:to-brand-end text-muted-foreground hover:text-white transition-all duration-300 text-sm font-medium"
                     >
                         Back to top
                         <ArrowUp className="w-4 h-4 group-hover:animate-bounce" />

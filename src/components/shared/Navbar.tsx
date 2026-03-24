@@ -81,10 +81,10 @@ export default function Navbar() {
                     <div className="flex items-center justify-between h-16 md:h-20">
                         {/* Logo */}
                         <Link href="/" className="relative group">
-                            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
+                            <span className="text-xl md:text-2xl font-bold bg-linear-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
                                 Dev Das
                             </span>
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-start to-brand-end transition-all duration-300 group-hover:w-full" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-brand-start to-brand-end transition-all duration-300 group-hover:w-full" />
                         </Link>
 
                         {/* Desktop Navigation */}
@@ -101,7 +101,7 @@ export default function Navbar() {
                                         className="relative px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
                                     >
                                         {link.name}
-                                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-brand-start to-brand-middle transition-all duration-300 group-hover:w-3/4 rounded-full" />
+                                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-linear-to-r from-brand-start to-brand-middle transition-all duration-300 group-hover:w-3/4 rounded-full" />
                                     </Link>
                                 </motion.div>
                             ))}

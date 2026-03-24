@@ -70,7 +70,7 @@ function SkillBar({
                     whileInView={{ width: `${level}%` }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.2 + index * 0.05, ease: "easeOut" }}
-                    className={`h-full bg-gradient-to-r ${color} rounded-full`}
+                    className={`h-full bg-linear-to-r ${color} rounded-full`}
                 />
             </div>
         </motion.div>
@@ -96,13 +96,13 @@ function SkillCard({
         >
             {/* Glow Effect */}
             <div
-                className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${category.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 blur-xl`}
+                className={`absolute inset-0 rounded-2xl bg-linear-to-r ${category.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 blur-xl`}
             />
 
             {/* Header */}
             <div className="flex items-center gap-4 mb-6">
                 <div
-                    className={`p-3 rounded-xl bg-gradient-to-r ${category.color} bg-opacity-20`}
+                    className={`p-3 rounded-xl bg-linear-to-r ${category.color} bg-opacity-20`}
                 >
                     <Icon className="w-6 h-6 text-white" />
                 </div>
@@ -162,7 +162,7 @@ export default function Skills({ skillCategories = [], loading = false }: Skills
                     transition={{ duration: 0.6 }}
                     className="text-center mb-8"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
                         <Zap className="w-4 h-4 text-brand-start" />
                         <span className="text-sm font-medium text-brand-start">
                             My Skills
@@ -171,7 +171,7 @@ export default function Skills({ skillCategories = [], loading = false }: Skills
 
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
                         Technical{" "}
-                        <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                             Expertise
                         </span>
                     </h2>
@@ -205,7 +205,7 @@ export default function Skills({ skillCategories = [], loading = false }: Skills
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="mt-16 text-center"
                 >
-                    <div className="inline-flex items-center gap-4 p-6 rounded-2xl bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20">
+                    <div className="inline-flex items-center gap-4 p-6 rounded-2xl bg-linear-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20">
                         <GitBranch className="w-8 h-8 text-brand-start" />
                         <div className="text-left">
                             <p className="font-semibold">Always Learning</p>
