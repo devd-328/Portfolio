@@ -84,7 +84,7 @@ function SkillCard({
     category: SkillCategory;
     index: number;
 }) {
-    const Icon = category.icon;
+    const Icon = iconMap[category.icon] || Code2;
 
     return (
         <motion.div

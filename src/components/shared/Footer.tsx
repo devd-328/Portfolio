@@ -46,11 +46,11 @@ export default function Footer() {
     }, []);
 
     const socialLinks = [
-        { name: "GitHub", href: settings?.github_url || "https://github.com/devd-328", icon: Github },
-        { name: "LinkedIn", href: settings?.linkedin_url || "https://www.linkedin.com/in/dev-das-webdev/", icon: Linkedin },
-        { name: "Twitter", href: settings?.twitter_url || "https://x.com/devdas_tech", icon: Twitter },
-        { name: "Instagram", href: settings?.instagram_url || "https://www.instagram.com/devdas.tech", icon: Instagram },
-        { name: "Email", href: `mailto:${settings?.email || "devdas.tech10@gmail.com"}`, icon: Mail },
+        { name: "GitHub", href: (settings?.github_url?.trim() || "") || "https://github.com/devd-328", icon: Github },
+        { name: "LinkedIn", href: (settings?.linkedin_url?.trim() || "") || "https://www.linkedin.com/in/dev-das-webdev/", icon: Linkedin },
+        { name: "Twitter", href: (settings?.twitter_url?.trim() || "") || "https://x.com/devdas_tech", icon: Twitter },
+        { name: "Instagram", href: (settings?.instagram_url?.trim() || "") || "https://www.instagram.com/devdas.tech", icon: Instagram },
+        { name: "Email", href: `mailto:${(settings?.email?.trim() || "") || "devdas.tech10@gmail.com"}`, icon: Mail },
     ];
 
     const scrollToTop = () => {
@@ -125,7 +125,9 @@ export default function Footer() {
                             Connect
                         </h3>
                         <div className="flex items-center gap-3">
-                            {socialLinks.map((social) => (
+                            {socialLinks
+                                .filter((social) => social.href && social.href !== "mailto:" && social.href.length > 0)
+                                .map((social) => (
                                 <motion.a
                                     key={social.name}
                                     href={social.href}

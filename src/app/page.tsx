@@ -13,7 +13,7 @@ type SkillCategory = Database["public"]["Tables"]["skill_categories"]["Row"];
 type Skill = Database["public"]["Tables"]["skills"]["Row"];
 type Client = Database["public"]["Tables"]["clients"]["Row"];
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 60; // Revalidate every minute instead of every hour
 
 export default async function Home() {
   const supabase = await createClient();
