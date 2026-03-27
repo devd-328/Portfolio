@@ -123,7 +123,7 @@ export default function Contact() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
                         <Mail className="w-4 h-4 text-brand-start" />
                         <span className="text-sm font-medium text-brand-start">
                             Get In Touch
@@ -132,7 +132,7 @@ export default function Contact() {
 
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
                         Let&apos;s Work{" "}
-                        <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                             Together
                         </span>
                     </h2>
@@ -165,7 +165,7 @@ export default function Contact() {
                                     <Card className="border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-300">
                                         <CardContent className="p-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="p-3 rounded-xl bg-gradient-to-r from-brand-start/20 to-brand-middle/20">
+                                                <div className="p-3 rounded-xl bg-linear-to-r from-brand-start/20 to-brand-middle/20">
                                                     <info.icon className="w-5 h-5 text-brand-start" />
                                                 </div>
                                                 <div>
@@ -209,7 +209,7 @@ export default function Contact() {
                                         rel="noopener noreferrer"
                                         whileHover={{ scale: 1.1, y: -2 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="p-3 rounded-xl bg-muted hover:bg-gradient-to-r hover:from-brand-start/20 hover:to-brand-middle/20 text-muted-foreground hover:text-foreground transition-all duration-300 border border-transparent hover:border-brand-start/30"
+                                        className="p-3 rounded-xl bg-muted hover:bg-linear-to-r hover:from-brand-start/20 hover:to-brand-middle/20 text-muted-foreground hover:text-foreground transition-all duration-300 border border-transparent hover:border-brand-start/30"
                                         aria-label={social.label}
                                     >
                                         <social.icon className="w-5 h-5" />
@@ -224,7 +224,7 @@ export default function Contact() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.4 }}
-                            className="p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20"
+                            className="p-4 rounded-xl bg-linear-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20"
                         >
                             <div className="flex items-center gap-3">
                                 <span className="relative flex h-3 w-3">
@@ -360,7 +360,7 @@ export default function Contact() {
                                         type="submit"
                                         size="lg"
                                         disabled={status === "loading"}
-                                        className="w-full group bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white shadow-lg shadow-brand-start/25 disabled:opacity-50 border-0"
+                                        className="w-full group bg-linear-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white shadow-lg shadow-brand-start/25 disabled:opacity-50 border-0"
                                     >
                                         {status === "loading" ? (
                                             <>

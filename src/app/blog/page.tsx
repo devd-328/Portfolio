@@ -55,11 +55,11 @@ export default async function BlogPage() {
         <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16">
-                    <Badge className="mb-4 bg-purple-500/20 text-purple-400 border-purple-500/30">
+                    <Badge className="mb-4 bg-brand-start/20 text-brand-start border-brand-start/30">
                         Blog
                     </Badge>
                     <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-                        Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>
+                        Latest <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-start to-brand-middle">Insights</span>
                     </h1>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                         Thoughts, tutorials, and deep dives into modern web development, software architecture, and more.
@@ -69,7 +69,7 @@ export default async function BlogPage() {
                 {blogs && blogs.length > 0 ? (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {blogs.map((blog) => (
-                            <Card key={blog.id} className="flex flex-col h-full border-border/50 bg-background/50 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300">
+                            <Card key={blog.id} className="flex flex-col h-full border-border/50 bg-background/50 backdrop-blur-sm hover:border-brand-start/50 transition-all duration-300">
                                 {blog.cover_image && (
                                     <div className="relative aspect-video overflow-hidden rounded-t-xl">
                                         <img
@@ -82,18 +82,18 @@ export default async function BlogPage() {
                                 <CardHeader>
                                     <div className="flex gap-2 mb-3">
                                         {blog.tags?.map((tag: string) => (
-                                            <Badge key={tag} variant="secondary" className="text-xs">
+                                            <Badge key={tag} variant="secondary" className="text-xs bg-brand-start/10 text-brand-start border-brand-start/20">
                                                 {tag}
                                             </Badge>
                                         ))}
                                     </div>
-                                    <CardTitle className="text-xl line-clamp-2 hover:text-purple-400 transition-colors">
+                                    <CardTitle className="text-xl line-clamp-2 hover:text-brand-start transition-colors">
                                         <Link href={`/blog/${blog.slug}`}>
                                             {blog.title}
                                         </Link>
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="flex-grow">
+                                <CardContent className="grow">
                                     <p className="text-muted-foreground line-clamp-3 text-sm">
                                         {blog.excerpt}
                                     </p>
@@ -103,7 +103,7 @@ export default async function BlogPage() {
                                         <Calendar className="w-4 h-4" />
                                         <span>{format(new Date(blog.created_at), 'MMM d, yyyy')}</span>
                                     </div>
-                                    <Button variant="ghost" size="sm" asChild className="hover:text-purple-400">
+                                    <Button variant="ghost" size="sm" asChild className="hover:text-brand-start">
                                         <Link href={`/blog/${blog.slug}`}>
                                             Read More <ArrowRight className="w-4 h-4 ml-1" />
                                         </Link>

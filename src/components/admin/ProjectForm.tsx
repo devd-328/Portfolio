@@ -124,7 +124,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                         <X className="w-4 h-4 mr-2" /> Cancel
                     </Button>
                     <Button
-                        className="bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white border-0 shadow-lg shadow-brand-start/20"
+                        className="bg-linear-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white border-0 shadow-lg shadow-brand-start/20"
                         disabled={loading}
                         type="submit"
                     >

@@ -226,7 +226,7 @@ export default function AdminSettingsPage() {
                                     Protect your admin account by requiring a verification code from your phone in addition to your password.
                                 </p>
                                 <Button
-                                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                                    className="bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
                                     onClick={() => setShowEnrollDialog(true)}
                                 >
                                     <Shield className="w-4 h-4 mr-2" />

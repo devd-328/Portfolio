@@ -135,7 +135,7 @@ export function AuthMFA({ onSuccess, onCancel }: AuthMFAProps) {
 
                 <Card className="border-border/50 bg-background/50 backdrop-blur-xl shadow-2xl">
                     <CardHeader className="text-center pb-2">
-                        <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                        <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-linear-to-r from-purple-500/20 to-pink-500/20 flex items-center justify-center">
                             <Shield className="w-8 h-8 text-purple-500" />
                         </div>
                         <CardTitle>Security Verification</CardTitle>
@@ -199,7 +199,7 @@ export function AuthMFA({ onSuccess, onCancel }: AuthMFAProps) {
 
                     <CardFooter className="flex flex-col gap-3">
                         <Button
-                            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white h-12"
+                            className="w-full bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white h-12"
                             onClick={handleVerify}
                             disabled={loading || verifyCode.length !== 6}
                         >

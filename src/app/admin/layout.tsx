@@ -80,7 +80,7 @@ export default function AdminLayout({
         <div className="min-h-screen bg-background flex flex-col md:flex-row">
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-background/50 backdrop-blur-md sticky top-0 z-50">
-                <span className="font-bold text-xl bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                <span className="font-bold text-xl bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                     Admin
                 </span>
                 <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -105,10 +105,10 @@ export default function AdminLayout({
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: -260, opacity: 0 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="fixed md:sticky inset-y-0 left-0 w-64 bg-card border-r border-border p-4 flex flex-col z-[60] h-screen overflow-y-auto"
+                            className="fixed md:sticky inset-y-0 left-0 w-64 bg-card border-r border-border p-4 flex flex-col z-60 h-screen overflow-y-auto"
                         >
                             <div className="mb-8 px-2 flex items-center justify-between">
-                                <span className="font-bold text-2xl bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                                <span className="font-bold text-2xl bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                                     Portfolio Admin
                                 </span>
                                 <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsSidebarOpen(false)}>
@@ -125,7 +125,7 @@ export default function AdminLayout({
                                         className={cn(
                                             "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                                             pathname === link.href
-                                                ? "bg-gradient-to-r from-brand-start/10 to-brand-middle/10 text-brand-start border border-brand-start/20"
+                                                ? "bg-linear-to-r from-brand-start/10 to-brand-middle/10 text-brand-start border border-brand-start/20"
                                                 : "text-muted-foreground hover:text-foreground hover:bg-muted"
                                         )}
                                     >
@@ -146,7 +146,7 @@ export default function AdminLayout({
                                 </Link>
 
                                 <div className="px-3 py-2 flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-brand-start to-brand-middle flex items-center justify-center text-white font-bold text-xs">
+                                    <div className="w-8 h-8 rounded-full bg-linear-to-r from-brand-start to-brand-middle flex items-center justify-center text-white font-bold text-xs">
                                         {user?.email?.charAt(0).toUpperCase() || <User className="w-4 h-4" />}
                                     </div>
                                     <div className="flex-1 min-w-0">

@@ -46,7 +46,7 @@ export function ProjectGallery({ images, projectTitle }: ProjectGalleryProps) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: i * 0.1 }}
-                        className="group relative aspect-video rounded-xl overflow-hidden border border-border bg-gradient-to-br from-brand-start/5 via-background to-brand-middle/5 cursor-pointer shadow-sm hover:shadow-xl hover:border-brand-start/30 transition-all duration-500"
+                        className="group relative aspect-video rounded-xl overflow-hidden border border-border bg-linear-to-br from-brand-start/5 via-background to-brand-middle/5 cursor-pointer shadow-sm hover:shadow-xl hover:border-brand-start/30 transition-all duration-500"
                         onClick={() => setIndex(i)}
                     >
                         <Image

@@ -28,7 +28,7 @@ export default async function AdminBlogsPage() {
                     <p className="text-muted-foreground">Manage your articles, tutorials, and latest news.</p>
                 </div>
                 <Link href="/admin/blogs/new">
-                    <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
+                    <Button className="bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
                         <PlusCircle className="mr-2 h-4 w-4" /> New Article
                     </Button>
                 </Link>

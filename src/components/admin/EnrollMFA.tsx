@@ -227,7 +227,7 @@ export function EnrollMFA({ onEnrolled, onCancelled }: EnrollMFAProps) {
                         Cancel
                     </Button>
                     <Button
-                        className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                        className="flex-1 bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
                         onClick={handleVerify}
                         disabled={verifying || verifyCode.length !== 6}
                     >

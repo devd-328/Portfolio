@@ -1,14 +1,36 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import ProjectListing from "@/components/shared/ProjectListing";
 import { Database } from "@/types/supabase";
 
 type Project = Database["public"]["Tables"]["projects"]["Row"];
 
-export const metadata = {
-    title: "Projects | Portfolio",
-    description: "A showcase of my latest web development projects.",
+export const metadata: Metadata = {
+    title: "Projects | Dev Das",
+    description: "A curated showcase of Dev Das's web development projects — from full-stack SaaS platforms to event discovery apps and admin dashboards. Built with React, Next.js, TypeScript, and Supabase.",
     alternates: {
         canonical: "https://devdas.tech/projects",
+    },
+    keywords: [
+        "Dev Das projects",
+        "full stack projects",
+        "Next.js portfolio",
+        "React projects",
+        "web development portfolio",
+        "Supabase apps",
+    ],
+    openGraph: {
+        title: "Projects | Dev Das — Full Stack Developer",
+        description: "Explore web development projects built with React, Next.js, TypeScript, Supabase, and more.",
+        url: "https://devdas.tech/projects",
+        type: "website",
+        images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Dev Das Projects" }],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Projects | Dev Das — Full Stack Developer",
+        description: "Explore web development projects built with React, Next.js, TypeScript, and Supabase.",
+        images: ["/og-image.png"],
     },
 };
 

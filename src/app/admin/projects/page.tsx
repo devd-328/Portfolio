@@ -29,7 +29,7 @@ export default async function AdminProjectsPage() {
                     <p className="text-muted-foreground">Manage your portfolio showcase and case studies.</p>
                 </div>
                 <Link href="/admin/projects/new">
-                    <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
+                    <Button className="bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
                         <PlusCircle className="mr-2 h-4 w-4" /> Add Project
                     </Button>
                 </Link>

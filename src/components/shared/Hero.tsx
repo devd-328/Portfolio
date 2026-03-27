@@ -56,10 +56,10 @@ export default function Hero({ settings, loading = false }: HeroProps) {
             {/* Animated Background */}
             <div className="absolute inset-0 -z-10">
                 {/* Gradient Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-brand-start/20" />
+                <div className="absolute inset-0 bg-linear-to-br from-background via-background to-brand-start/20" />
 
                 {/* Animated Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[100px_100px] mask-[radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
 
                 {/* Optimized Floating Orbs - Reduced quantity and simplified animations */}
                 <motion.div
@@ -97,7 +97,7 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.2 }}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6"
                             >
                                 <Sparkles className="w-4 h-4 text-brand-middle" />
                                 <span className="text-sm font-medium text-brand-middle">Available for hire</span>
@@ -112,7 +112,7 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight"
                         >
                             <span className="block text-foreground">{heroTitle}</span>
-                            <span className="block mt-2 bg-gradient-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
+                            <span className="block mt-2 bg-linear-to-r from-brand-start via-brand-middle to-brand-end bg-clip-text text-transparent">
                                 {heroName}
                             </span>
                         </motion.h1>
@@ -146,7 +146,7 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                             <Link href="/#projects">
                                 <Button
                                     size="lg"
-                                    className="group relative overflow-hidden bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white shadow-lg shadow-brand-start/25 hover:shadow-brand-start/40 transition-all duration-300 border-0"
+                                    className="group relative overflow-hidden bg-linear-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white shadow-lg shadow-brand-start/25 hover:shadow-brand-start/40 transition-all duration-300 border-0"
                                 >
                                     <span className="relative z-10 flex items-center gap-2">
                                         View My Work
@@ -180,7 +180,7 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                                 { value: `${settings?.clients_count ?? 30}+`, label: "Happy Clients" },
                             ].map((stat, index) => (
                                 <div key={index} className="text-center lg:text-left">
-                                    <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                                    <div className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                                         {stat.value}
                                     </div>
                                     <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
@@ -205,7 +205,7 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                             />
 
                             {/* Glow Effect */}
-                            <div className="absolute -inset-8 bg-gradient-to-r from-brand-start/20 via-brand-middle/20 to-brand-end/20 rounded-full blur-2xl" />
+                            <div className="absolute -inset-8 bg-linear-to-r from-brand-start/20 via-brand-middle/20 to-brand-end/20 rounded-full blur-2xl" />
 
                             {/* Image Container */}
                             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-brand-start/30 shadow-2xl shadow-brand-start/20">
@@ -223,7 +223,7 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                             <motion.div
                                 animate={{ y: [-10, 10, -10] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -top-4 -right-4 p-3 rounded-xl bg-gradient-to-r from-brand-start to-brand-middle shadow-lg"
+                                className="absolute -top-4 -right-4 p-3 rounded-xl bg-linear-to-r from-brand-start to-brand-middle shadow-lg"
                             >
                                 <Code2 className="w-6 h-6 text-white" />
                             </motion.div>
@@ -231,7 +231,7 @@ export default function Hero({ settings, loading = false }: HeroProps) {
                             <motion.div
                                 animate={{ y: [10, -10, 10] }}
                                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -bottom-4 -left-4 p-3 rounded-xl bg-gradient-to-r from-brand-end to-brand-start shadow-lg"
+                                className="absolute -bottom-4 -left-4 p-3 rounded-xl bg-linear-to-r from-brand-end to-brand-start shadow-lg"
                             >
                                 <Rocket className="w-6 h-6 text-white" />
                             </motion.div>

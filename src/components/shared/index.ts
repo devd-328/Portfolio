@@ -5,6 +5,7 @@ export { default as About } from "./About";
 export { default as Projects } from "./Projects";
 export { default as Skills } from "./Skills";
 export { default as Contact } from "./Contact";
+export { default as PageTransition } from "./PageTransition";
 export { ThemeProvider } from "./ThemeProvider";
 export { ThemeToggle } from "./ThemeToggle";
 export { PageViewTracker } from "./PageViewTracker";

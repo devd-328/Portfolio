@@ -72,7 +72,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                             </Badge>
 
                             {/* Title */}
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 break-words">
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 wrap-break-word">
                                 {project.title}
                             </h1>
 
@@ -104,7 +104,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                             <div className="flex flex-wrap gap-4">
                                 {project.live_url && (
                                     <a href={project.live_url} target="_blank" rel="noopener noreferrer">
-                                        <Button className="group bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white border-0 shadow-lg shadow-brand-start/20">
+                                        <Button className="group bg-linear-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white border-0 shadow-lg shadow-brand-start/20">
                                             View Live Demo
                                             <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                                         </Button>
@@ -128,7 +128,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="relative"
                         >
-                            <div className="relative aspect-video rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-brand-start/10 via-background to-brand-middle/10">
+                            <div className="relative aspect-video rounded-2xl overflow-hidden border border-border bg-linear-to-br from-brand-start/10 via-background to-brand-middle/10">
                                 {project.image_url ? (
                                     <Image
                                         src={project.image_url}
@@ -231,7 +231,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                     >
                         <h2 className="text-3xl font-bold mb-4">
                             Tech{" "}
-                            <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                            <span className="bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                                 Stack
                             </span>
                         </h2>
@@ -278,7 +278,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                     >
                         <h2 className="text-3xl font-bold mb-4">
                             Project{" "}
-                            <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                            <span className="bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                                 Gallery
                             </span>
                         </h2>
@@ -304,7 +304,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="p-8 md:p-12 rounded-2xl bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20"
+                        className="p-8 md:p-12 rounded-2xl bg-linear-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20"
                     >
                         <h2 className="text-2xl md:text-3xl font-bold mb-4">
                             Interested in working together?
@@ -314,7 +314,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <Link href="/#contact">
-                                <Button className="bg-gradient-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white border-0 shadow-lg shadow-brand-start/20">
+                                <Button className="bg-linear-to-r from-brand-start to-brand-middle hover:from-brand-start/90 hover:to-brand-middle/90 text-white border-0 shadow-lg shadow-brand-start/20">
                                     Get In Touch
                                 </Button>
                             </Link>

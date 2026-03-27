@@ -42,7 +42,7 @@ function ProjectCard({
                             />
                         ) : (
                             <>
-                                <div className="absolute inset-0 bg-gradient-to-br from-brand-start/20 via-background to-brand-middle/20" />
+                                <div className="absolute inset-0 bg-linear-to-br from-brand-start/20 via-background to-brand-middle/20" />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <Folder className="w-16 h-16 text-muted-foreground/30" />
                                 </div>
@@ -50,7 +50,7 @@ function ProjectCard({
                         )}
 
                         {/* Overlay on Hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                        <div className="absolute inset-0 bg-linear-to-t from-background via-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
                             <div className="flex gap-3">
                                 {project.live_url && (
                                     <motion.span
@@ -60,7 +60,7 @@ function ProjectCard({
                                         }}
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="p-3 rounded-full bg-gradient-to-r from-brand-start to-brand-middle text-white shadow-lg cursor-pointer"
+                                        className="p-3 rounded-full bg-linear-to-r from-brand-start to-brand-middle text-white shadow-lg cursor-pointer"
                                     >
                                         <ExternalLink className="w-5 h-5" />
                                     </motion.span>
@@ -84,7 +84,7 @@ function ProjectCard({
                         {/* Featured Badge */}
                         {project.featured && (
                             <div className="absolute top-3 right-3">
-                                <Badge className="bg-gradient-to-r from-brand-start to-brand-middle text-white border-0">
+                                <Badge className="bg-linear-to-r from-brand-start to-brand-middle text-white border-0">
                                     Featured
                                 </Badge>
                             </div>
@@ -178,7 +178,7 @@ export default function Projects({ projects: initialProjects = [], loading = fal
                     transition={{ duration: 0.6 }}
                     className="text-center mb-8"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
                         <Folder className="w-4 h-4 text-brand-start" />
                         <span className="text-sm font-medium text-brand-start">
                             My Projects
@@ -187,7 +187,7 @@ export default function Projects({ projects: initialProjects = [], loading = fal
 
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
                         Featured{" "}
-                        <span className="bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                             Works
                         </span>
                     </h2>
@@ -214,7 +214,7 @@ export default function Projects({ projects: initialProjects = [], loading = fal
                             onClick={() => setActiveCategory(category)}
                             className={
                                 activeCategory === category
-                                    ? "bg-gradient-to-r from-brand-start to-brand-middle text-white border-0"
+                                    ? "bg-linear-to-r from-brand-start to-brand-middle text-white border-0"
                                     : "border-brand-start/30 hover:border-brand-start/50 hover:bg-brand-start/10"
                             }
                         >

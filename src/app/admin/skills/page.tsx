@@ -258,7 +258,7 @@ export default function SkillsPage() {
                         <CardHeader>
                             <div className="flex items-center gap-3">
                                 <div
-                                    className={`p-3 rounded-xl bg-gradient-to-r ${category.color} bg-opacity-20`}
+                                    className={`p-3 rounded-xl bg-linear-to-r ${category.color} bg-opacity-20`}
                                 >
                                     {(() => {
                                         const Icon = iconMap[category.icon || "Code2"] || Code2;
@@ -358,7 +358,7 @@ export default function SkillsPage() {
                                                     </div>
                                                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                                                         <div
-                                                            className={`h-full bg-gradient-to-r ${category.color} rounded-full`}
+                                                            className={`h-full bg-linear-to-r ${category.color} rounded-full`}
                                                             style={{
                                                                 width: `${skill.level}%`,
                                                             }}

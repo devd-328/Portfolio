@@ -103,7 +103,7 @@ index f52a537..69153e0 100644
  
                              {/* Title */}
 -                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 break-words">
++                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 wrap-break-word">
                                  {project.title}
                              </h1>
  
@@ -133,7 +133,7 @@ index f52a537..69153e0 100644
 -                                viewport={{ once: true }}
 -                                transition={{ duration: 0.5, delay: index * 0.1 }}
 -                                whileHover={{ scale: 1.02 }}
--                                className="relative aspect-video rounded-xl overflow-hidden border border-border bg-gradient-to-br from-brand-start/10 via-background to-brand-middle/10"
+-                                className="relative aspect-video rounded-xl overflow-hidden border border-border bg-linear-to-br from-brand-start/10 via-background to-brand-middle/10"
 -                            >
 -                                <div className="absolute inset-0 flex items-center justify-center">
 -                                    {image && image.startsWith("http") ? (

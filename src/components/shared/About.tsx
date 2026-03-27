@@ -71,7 +71,7 @@ export default function About({ settings, clients = [], loading = false }: About
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                         <div className="relative animate-pulse order-2 lg:order-1">
-                            <div className="aspect-[4/5] rounded-2xl bg-muted" />
+                            <div className="aspect-4/5 rounded-2xl bg-muted" />
                         </div>
                         <div className="space-y-6 animate-pulse order-1 lg:order-2">
                             <div className="h-8 w-32 bg-muted rounded-full" />
@@ -112,12 +112,12 @@ export default function About({ settings, clients = [], loading = false }: About
                     >
                         <div className="relative">
                             {/* Decorative Frame */}
-                            <div className="absolute -inset-4 bg-gradient-to-r from-brand-start/20 to-brand-middle/20 rounded-2xl blur-xl" />
+                            <div className="absolute -inset-4 bg-linear-to-r from-brand-start/20 to-brand-middle/20 rounded-2xl blur-xl" />
                             <div className="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-brand-start rounded-tl-2xl" />
                             <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-brand-middle rounded-br-2xl" />
 
                             {/* Image Container */}
-                            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border">
+                            <div className="relative aspect-4/5 rounded-2xl overflow-hidden border border-border">
                                 <Image
                                     src={aboutImage}
                                     alt="About Profile Picture"
@@ -173,7 +173,7 @@ export default function About({ settings, clients = [], loading = false }: About
                         className="order-1 lg:order-2"
                     >
                         {/* Section Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-brand-start/10 to-brand-middle/10 border border-brand-start/20 mb-6">
                             <Calendar className="w-4 h-4 text-brand-start" />
                             <span className="text-sm font-medium text-brand-start">About Me</span>
                         </div>
@@ -201,7 +201,7 @@ export default function About({ settings, clients = [], loading = false }: About
                             <Button
                                 asChild
                                 size="lg"
-                                className="group bg-gradient-to-r from-brand-start to-brand-middle hover:opacity-90 text-white shadow-lg shadow-brand-start/25"
+                                className="group bg-linear-to-r from-brand-start to-brand-middle hover:opacity-90 text-white shadow-lg shadow-brand-start/25"
                             >
                                 <a href={resumeUrl} download>
                                     <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
@@ -220,7 +220,7 @@ export default function About({ settings, clients = [], loading = false }: About
                         >
                             {stats.map((stat, index) => (
                                 <div key={index} className="text-center">
-                                    <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
+                                    <div className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-brand-start to-brand-middle bg-clip-text text-transparent">
                                         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                                     </div>
                                     <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
@@ -241,7 +241,7 @@ export default function About({ settings, clients = [], loading = false }: About
                     >
                         <div className="text-center mb-10">
                             <h3 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-4">Trusted By</h3>
-                            <div className="h-1 w-12 bg-gradient-to-r from-brand-start to-brand-middle mx-auto rounded-full" />
+                            <div className="h-1 w-12 bg-linear-to-r from-brand-start to-brand-middle mx-auto rounded-full" />
                         </div>
                         <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
                             {clients.map((client) => (
