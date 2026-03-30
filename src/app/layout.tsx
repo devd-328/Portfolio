@@ -69,15 +69,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://devdas.tech",
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon.png", type: "image/png" },
-    ],
-    apple: [
-      { url: "/apple-touch-icon.png" },
-    ],
-  },
 };
 
 export default function RootLayout({
